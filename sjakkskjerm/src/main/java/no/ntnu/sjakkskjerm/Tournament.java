@@ -4,7 +4,9 @@ package no.ntnu.sjakkskjerm;
 import org.springframework.data.annotation.Id;
 import javax.persistence.Entity;
 
-// En entitetsklasse for turneringer
+/*
+ * En entitetsklasse for turneringer
+ */
 @Entity
 public class Tournament {
     @Id
