@@ -9,9 +9,9 @@ import javax.persistence.Entity;
 public class Tournament {
     @Id
     private Long id;                     //Unik ID for hver enkel turnering
-    private String startDate;           //Startdato for turnering
-    private String endDate;             //Sluttdato for turnering
-    private int numberOfRounds;         //Antall runder som skal spilles i turneringen
+    private String startDate;            //Startdato for turnering
+    private String endDate;              //Sluttdato for turnering
+    private int numberOfRounds;          //Antall runder som skal spilles i turneringen
     private int gamesPerRound;           //Antall kamper per runde som skal spilles i turneringen
     private String tournamentOrganizer;  //Personen eller klubben som står for arrangering av turneringen
 
