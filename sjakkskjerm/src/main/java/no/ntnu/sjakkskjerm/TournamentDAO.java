@@ -1,6 +1,7 @@
 package no.ntnu.sjakkskjerm;
 
 import org.springframework.stereotype.Repository;
+import no.ntnu.sjakkskjerm.Tournaments;
 
 @Repository
 /*
