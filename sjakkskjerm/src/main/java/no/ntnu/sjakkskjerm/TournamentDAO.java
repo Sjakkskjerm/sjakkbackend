@@ -16,7 +16,20 @@ public class TournamentDAO {
      */
     static {
         //dummies
+        //id, startDate, endDate, numberOfRounds, gamesPerRound, tournamentOrganizer
     }
 
+    /*
+     * Get method that returns the list
+     */
+    public static Tournaments getAllTournaments() {
+        return list;
+    }
 
+    /*
+     * Method that adds a tournament to the tournament list
+     */
+    public void addTournament(Tournament tournament) {
+        list.getTournamentList().add(tournament);
+    }
 }
