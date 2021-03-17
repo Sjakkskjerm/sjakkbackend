@@ -5,17 +5,17 @@ import org.springframework.data.annotation.Id;
 import javax.persistence.Entity;
 
 /*
- * En entitetsklasse for turneringer
+ * An entity class for tournaments
  */
 @Entity
 public class Tournament {
     @Id
-    private Long id;                     //Unik ID for hver enkel turnering
-    private String startDate;            //Startdato for turnering
-    private String endDate;              //Sluttdato for turnering
-    private int numberOfRounds;          //Antall runder som skal spilles i turneringen
-    private int gamesPerRound;           //Antall kamper per runde som skal spilles i turneringen
-    private String tournamentOrganizer;  //Personen eller klubben som står for arrangering av turneringen
+    private Long id;                     //Unique ID for each tournament
+    private String startDate;            //The start date of the tournament
+    private String endDate;              //The end date of the tournament
+    private int numberOfRounds;          //The number of rounds that will be played in the tournament
+    private int gamesPerRound;           //The number of games per round that will be played in the tournament
+    private String tournamentOrganizer;  //The person or club that arranges/organizes the tournament
 
     public Tournament() { }
 

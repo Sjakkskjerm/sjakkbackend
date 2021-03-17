@@ -4,14 +4,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 /*
- * Klasse som lagrer listen av alle turneringer i an ArrayList.
+ * Class that stores the list of all the tournaments in an ArrayList.
  */
 public class Tournaments {
 
     private List<Tournament> tournamentList;
 
     /*
-     * Get metode som returnerer listen av turneringer
+     * Get method that returns the list of tournaments.
      */
     public List<Tournament> getTournamentList() {
         if(tournamentList == null) {
