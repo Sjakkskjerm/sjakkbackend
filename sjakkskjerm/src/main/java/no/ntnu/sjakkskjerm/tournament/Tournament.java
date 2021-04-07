@@ -3,6 +3,7 @@ package no.ntnu.sjakkskjerm.tournament;
 
 import org.springframework.data.annotation.Id;
 import javax.persistence.Entity;
+import java.time.LocalDate;
 
 /*
  * An entity class for tournaments
@@ -11,15 +12,15 @@ import javax.persistence.Entity;
 public class Tournament {
     @Id
     private Long id;                     //Unique ID for each tournament
-    private String startDate;            //The start date of the tournament
-    private String endDate;              //The end date of the tournament
+    private LocalDate startDate;            //The start date of the tournament
+    private LocalDate endDate;              //The end date of the tournament
     private int numberOfRounds;          //The number of rounds that will be played in the tournament
     private int gamesPerRound;           //The number of games per round that will be played in the tournament
     private String tournamentOrganizer;  //The person or club that arranges/organizes the tournament
 
     public Tournament() { }
 
-    public Tournament(Long id, String startDate, String endDate, int numberOfRounds, int gamesPerRound,
+    public Tournament(Long id, LocalDate startDate, LocalDate endDate, int numberOfRounds, int gamesPerRound,
                        String tournamentOrganizer) {
         this.id = id;
         this.startDate = startDate;
@@ -34,11 +35,11 @@ public class Tournament {
         return id;
     }
 
-    public String getStartDate() {
+    public LocalDate getStartDate() {
         return startDate;
     }
 
-    public String getEndDate() {
+    public LocalDate getEndDate() {
         return endDate;
     }
 
@@ -56,11 +57,11 @@ public class Tournament {
         this.id = id;
     }
 
-    public void setStartDate(String startDate) {
+    public void setStartDate(LocalDate startDate) {
         this.startDate = startDate;
     }
 
-    public void setEndDate(String endDate) {
+    public void setEndDate(LocalDate endDate) {
         this.endDate = endDate;
     }
 
