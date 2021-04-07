@@ -1,6 +1,7 @@
 package no.ntnu.sjakkskjerm.tournament;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -19,6 +20,7 @@ public class TournamentController {
 
     private TournamentService tournamentService;
 
+    @Autowired
     public TournamentController(TournamentService tournamentService) {
         this.tournamentService = tournamentService;
     }
@@ -26,7 +28,8 @@ public class TournamentController {
     /*
      * Get method to get a list of the tournaments
      */
-    @GetMapping(path = "/", consumes = "application/json", produces = "application/json")
+    @GetMapping(path = "/")
+    @CrossOrigin("*")
     public List<Tournament> getTournaments() {
         return tournamentService.getAllTournaments();
     }
