@@ -19,6 +19,7 @@ public class MessageController {
     }
 
     @GetMapping
+    @CrossOrigin(origins =  "*", allowedHeaders = "*")
     public List<Message> getMessages() {
         return messageService.getMessage();
     }
