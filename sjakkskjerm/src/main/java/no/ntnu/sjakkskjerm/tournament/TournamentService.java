@@ -2,34 +2,31 @@ package no.ntnu.sjakkskjerm.tournament;
 
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
+
 @Repository
 /*
  * Class that creates a list of tournaments
  */
-public class TournamentDAO {
+public class TournamentService {
 
-    private static Tournaments list = new Tournaments();
+    private final TournamentRepository tournamentRepository;
 
-    /*
-     * TODO add static block with dummies
-     * Will be run before that main block
-     */
-    static {
-        //dummies
-        //id, startDate, endDate, numberOfRounds, gamesPerRound, tournamentOrganizer
+    public TournamentService(TournamentRepository tournamentRepository) {
+        this.tournamentRepository = tournamentRepository;
     }
 
     /*
      * Get method that returns the list
      */
-    public static Tournaments getAllTournaments() {
-        return list;
+    public List<Tournament> getAllTournaments() {
+        return tournamentRepository.findAll();
     }
 
     /*
      * Method that adds a tournament to the tournament list
      */
     public void addTournament(Tournament tournament) {
-        list.getTournamentList().add(tournament);
+        tournamentRepository.save(tournament);
     }
 }

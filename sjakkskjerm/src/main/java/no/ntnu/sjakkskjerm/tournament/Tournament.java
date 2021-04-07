@@ -1,4 +1,4 @@
-package no.ntnu.sjakkskjerm;
+package no.ntnu.sjakkskjerm.tournament;
 
 
 import org.springframework.data.annotation.Id;
