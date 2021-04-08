@@ -37,7 +37,7 @@ public class MessageConfig {
             );
 
             repository.saveAll(
-                    List.of(mtest)
+                    List.of(mtest,mtest2,mtest3)
             );
         };
     }
