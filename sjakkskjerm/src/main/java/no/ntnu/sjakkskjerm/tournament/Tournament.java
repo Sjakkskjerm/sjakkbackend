@@ -12,22 +12,24 @@ import java.time.LocalDate;
 public class Tournament {
     @Id
     private Long id;                     //Unique ID for each tournament
-    private LocalDate startDate;            //The start date of the tournament
-    private LocalDate endDate;              //The end date of the tournament
+    private LocalDate startDate;         //The start date of the tournament
+    private LocalDate endDate;           //The end date of the tournament
     private int numberOfRounds;          //The number of rounds that will be played in the tournament
     private int gamesPerRound;           //The number of games per round that will be played in the tournament
     private String tournamentOrganizer;  //The person or club that arranges/organizes the tournament
+    private String tournamentName;       //The name of the tournament
 
     public Tournament() { }
 
     public Tournament(Long id, LocalDate startDate, LocalDate endDate, int numberOfRounds, int gamesPerRound,
-                       String tournamentOrganizer) {
+                       String tournamentOrganizer, String tournamentName) {
         this.id = id;
         this.startDate = startDate;
         this.endDate = endDate;
         this.numberOfRounds = numberOfRounds;
         this.gamesPerRound = gamesPerRound;
         this.tournamentOrganizer = tournamentOrganizer;
+        this.tournamentName = tournamentName;
     }
 
     @javax.persistence.Id
@@ -53,6 +55,8 @@ public class Tournament {
         return tournamentOrganizer;
     }
 
+    public String getTournamentName() { return tournamentName; }
+
     public void setId(Long id) {
         this.id = id;
     }
@@ -76,5 +80,7 @@ public class Tournament {
     public void setTournamentOrganizer(String tournamentOrganizer) {
         this.tournamentOrganizer = tournamentOrganizer;
     }
+
+    public void setTournamentName(String tournamentName) { this.tournamentName = tournamentName; }
 
 }
