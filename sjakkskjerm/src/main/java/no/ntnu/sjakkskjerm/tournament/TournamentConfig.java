@@ -23,7 +23,8 @@ public class TournamentConfig {
                     LocalDate.of(2021, APRIL, 20),
                     5,
                     4,
-                    "Ola Normann"
+                    "Ola Normann",
+                    "The Easter Chess Championship 2021"
             );
             Tournament testTournament2 = new Tournament(
                     2L,
@@ -31,7 +32,8 @@ public class TournamentConfig {
                     LocalDate.of(2021, JUNE, 15),
                     6,
                     3,
-                    "Per Atle Steinar"
+                    "Per Atle Steinar",
+                    "Per Atle Steinars Toten Turnering"
             );
             Tournament testTournament3 = new Tournament(
                     3L,
@@ -39,7 +41,8 @@ public class TournamentConfig {
                     LocalDate.of(2022, JANUARY, 5),
                     9,
                     2,
-                    "Julenissen"
+                    "Julenissen",
+                    "New Year 2021  North Pole Chess Open"
             );
 
             repository.saveAll(
