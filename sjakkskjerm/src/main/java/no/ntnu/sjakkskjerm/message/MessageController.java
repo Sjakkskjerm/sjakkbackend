@@ -25,6 +25,7 @@ public class MessageController {
     }
 
     @PostMapping
+    @CrossOrigin(origins =  "*", allowedHeaders = "*")
     public void sendMessage(@RequestBody Message message) {
         messageService.sendMessage(message);
     }
