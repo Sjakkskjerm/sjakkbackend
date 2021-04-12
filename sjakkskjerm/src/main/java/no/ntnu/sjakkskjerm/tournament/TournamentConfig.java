@@ -18,7 +18,7 @@ public class TournamentConfig {
     CommandLineRunner commandLineRunner2(TournamentRepository repository) {
         return args -> {
             Tournament testTournament = new Tournament(
-                   1L,
+                   123L,
                     LocalDate.of(2021, APRIL, 5),
                     LocalDate.of(2021, APRIL, 20),
                     5,
@@ -27,7 +27,7 @@ public class TournamentConfig {
                     "The Easter Chess Championship 2021"
             );
             Tournament testTournament2 = new Tournament(
-                    2L,
+                    124L,
                     LocalDate.of(2021, JUNE, 5),
                     LocalDate.of(2021, JUNE, 15),
                     6,
@@ -36,7 +36,7 @@ public class TournamentConfig {
                     "Per Atle Steinars Toten Turnering"
             );
             Tournament testTournament3 = new Tournament(
-                    3L,
+                    125L,
                     LocalDate.of(2021, DECEMBER, 25),
                     LocalDate.of(2022, JANUARY, 5),
                     9,
