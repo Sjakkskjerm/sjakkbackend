@@ -11,13 +11,14 @@ import java.time.LocalDate;
 @Entity
 public class Tournament {
     @Id
-    private Long id;                     //Unique ID for each tournament
-    private LocalDate startDate;         //The start date of the tournament
-    private LocalDate endDate;           //The end date of the tournament
-    private int numberOfRounds;          //The number of rounds that will be played in the tournament
-    private int gamesPerRound;           //The number of games per round that will be played in the tournament
-    private String tournamentOrganizer;  //The person or club that arranges/organizes the tournament
-    private String tournamentName;       //The name of the tournament
+    private Long id;                     // Unique ID for each tournament
+    private LocalDate startDate;         // The start date of the tournament
+    private LocalDate endDate;           // The end date of the tournament
+    private int numberOfRounds;          // The number of rounds that will be played in the tournament
+    private int gamesPerRound;           // The number of games per round that will be played in the tournament
+    private String tournamentOrganizer;  // The person or club that arranges/organizes the tournament
+    private String tournamentName;       // The name of the tournament
+    private Long owner;                  // The ID of a user in the system that is an Owner
 
     public Tournament() { }
 
