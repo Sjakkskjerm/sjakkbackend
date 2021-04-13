@@ -18,19 +18,19 @@ public class MessageConfig {
     CommandLineRunner commandLineRunner(MessageRepository repository) {
         return args -> {
             Message mtest = new Message(
-                   1,
+                   123L,
                     LocalDate.of(2000, JANUARY,5),
                    "Viktig",
                    "Hei"
             );
             Message mtest2 = new Message(
-                    1,
+                    124L,
                     LocalDate.of(2001, JANUARY,5),
                     "Viktig",
                     "HeiHei"
             );
             Message mtest3 = new Message(
-                    2,
+                    125L,
                     LocalDate.of(2002, JANUARY,5),
                     "Viktig",
                     "HeiHeiHeiHei"

@@ -10,71 +10,71 @@ public class Message {
     @Id
     @SequenceGenerator(name = "melding_sequence", sequenceName = "melding_sequence", allocationSize = 1)
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "melding_sequence")
-    private Integer meldingId;
+    private Long messageId;
 
-    private Integer turneringsId;
-    private LocalDate dato;
-    private String Viktighet;
-    private String Melding;
+    private Long tournamentId;
+    private LocalDate date;
+    private String importance;
+    private String message;
 
     public Message() {
     }
 
-    public Message(Integer turneringsId, LocalDate dato, String viktighet, String melding) {
-        this.turneringsId = turneringsId;
-        this.dato = dato;
-        Viktighet = viktighet;
-        Melding = melding;
+    public Message(Long tournamentId, LocalDate date, String importance, String message) {
+        this.tournamentId = tournamentId;
+        this.date = date;
+        this.importance = importance;
+        this.message = message;
     }
 
-    public Integer getMeldingId() {
-        return meldingId;
+    public Long getMessageId() {
+        return messageId;
     }
 
-    public void setMeldingId(Integer meldingId) {
-        this.meldingId = meldingId;
+    public void setMessageId(Long messageId) {
+        this.messageId = messageId;
     }
 
-    public Integer getTurneringsId() {
-        return turneringsId;
+    public Long getTournamentId() {
+        return tournamentId;
     }
 
-    public void setTurneringsId(Integer turneringsId) {
-        this.turneringsId = turneringsId;
+    public void setTournamentId(Long tournamentId) {
+        this.tournamentId = tournamentId;
     }
 
-    public LocalDate getDato() {
-        return dato;
+    public LocalDate getDate() {
+        return date;
     }
 
-    public void setDato(LocalDate dato) {
-        this.dato = dato;
+    public void setDate(LocalDate date) {
+        this.date = date;
     }
 
-    public String getViktighet() {
-        return Viktighet;
+    public String getImportance() {
+        return importance;
     }
 
-    public void setViktighet(String viktighet) {
-        Viktighet = viktighet;
+    public void setImportance(String importance) {
+        this.importance = importance;
     }
 
-    public String getMelding() {
-        return Melding;
+    public String getMessage() {
+        return message;
     }
 
-    public void setMelding(String melding) {
-        Melding = melding;
+    public void setMessage(String message) {
+        this.message = message;
     }
 
     @Override
     public String toString() {
         return "Message{" +
-                "meldingId=" + meldingId +
-                ", turneringsId=" + turneringsId +
-                ", dato=" + dato +
-                ", Viktighet='" + Viktighet + '\'' +
-                ", Message='" + Melding + '\'' +
+                "messageId=" + messageId +
+                ", tournamentId=" + tournamentId +
+                ", date=" + date +
+                ", importance='" + importance + '\'' +
+                ", Message='" + message + '\'' +
                 '}';
     }
 }
