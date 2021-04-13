@@ -4,8 +4,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class MessageService {
@@ -26,4 +28,18 @@ public class MessageService {
         messageRepository.save(message);
     }
 
+    public List<Message> getMessageTournament(Integer tournamentId) {
+
+        List<Message> originalList = messageRepository.findAll();
+
+       List<Message> originalList2 =
+                originalList
+                    .stream()
+                    .filter(c -> tournamentId.equals(c.getTurneringsId()))
+                    .collect(Collectors.toList());
+
+       originalList2.forEach(System.out::println);
+
+       return originalList2;
+    }
 }

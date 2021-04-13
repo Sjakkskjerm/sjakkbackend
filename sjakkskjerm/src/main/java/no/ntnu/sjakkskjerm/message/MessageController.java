@@ -30,4 +30,12 @@ public class MessageController {
         messageService.sendMessage(message);
     }
 
+    @GetMapping
+    @CrossOrigin(origins = "*", allowedHeaders = "*")
+    @RequestMapping(path = "/specific")
+    public List<Message> getMessageTournament(@RequestParam int tournamentId) {
+        System.out.println(tournamentId);
+        return messageService.getMessageTournament(tournamentId);
+    }
+
 }

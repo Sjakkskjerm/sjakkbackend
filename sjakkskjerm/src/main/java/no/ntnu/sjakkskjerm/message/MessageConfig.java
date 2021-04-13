@@ -30,7 +30,7 @@ public class MessageConfig {
                     "HeiHei"
             );
             Message mtest3 = new Message(
-                    1,
+                    2,
                     LocalDate.of(2002, JANUARY,5),
                     "Viktig",
                     "HeiHeiHeiHei"
