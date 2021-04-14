@@ -27,4 +27,8 @@ public class LiveGameService {
         Optional<LiveGame> games= liveGameRepository.findById(liveGameId);
         return games.orElse(null);
     }
+
+    public List<LiveGame> getGamesByTournamentId(Long tournamentId) {
+        return liveGameRepository.findByTournamentIdOrderByTournamentIdAsc(tournamentId);
+    }
 }
