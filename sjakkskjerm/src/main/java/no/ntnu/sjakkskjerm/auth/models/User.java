@@ -1,6 +1,4 @@
-package no.ntnu.sjakkskjerm.models;
-
-import com.sun.istack.NotNull;
+package no.ntnu.sjakkskjerm.auth.models;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;

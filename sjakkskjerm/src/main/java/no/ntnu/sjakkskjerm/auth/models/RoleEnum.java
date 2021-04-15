@@ -1,4 +1,4 @@
-package no.ntnu.sjakkskjerm.models;
+package no.ntnu.sjakkskjerm.auth.models;
 
 public enum RoleEnum {
     ROLE_USER,
