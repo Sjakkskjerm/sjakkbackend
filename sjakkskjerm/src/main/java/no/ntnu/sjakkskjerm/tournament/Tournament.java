@@ -1,17 +1,19 @@
 package no.ntnu.sjakkskjerm.tournament;
 
-
-import org.springframework.data.annotation.Id;
-import javax.persistence.Entity;
+import javax.persistence.*;
 import java.time.LocalDate;
 
 /*
  * An entity class for tournaments
  */
 @Entity
+@Table
 public class Tournament {
     @Id
+    @SequenceGenerator(name = "tournament_sequence", sequenceName = "tournament_sequence", allocationSize = 1)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "tournament_sequence")
     private Long id;                     // Unique ID for each tournament
+
     private LocalDate startDate;         // The start date of the tournament
     private LocalDate endDate;           // The end date of the tournament
     private int numberOfRounds;          // The number of rounds that will be played in the tournament
@@ -33,7 +35,6 @@ public class Tournament {
         this.tournamentName = tournamentName;
     }
 
-    @javax.persistence.Id
     public Long getId() {
         return id;
     }
@@ -84,4 +85,17 @@ public class Tournament {
 
     public void setTournamentName(String tournamentName) { this.tournamentName = tournamentName; }
 
+    @Override
+    public String toString() {
+        return "Tournament{" +
+                "id=" + id +
+                ", startDate=" + startDate +
+                ", endDate=" + endDate +
+                ", numberOfRounds=" + numberOfRounds +
+                ", gamesPerRound=" + gamesPerRound +
+                ", tournamentOrganizer='" + tournamentOrganizer + '\'' +
+                ", tournamentName='" + tournamentName + '\'' +
+                ", owner=" + owner +
+                '}';
+    }
 }

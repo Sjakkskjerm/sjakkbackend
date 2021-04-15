@@ -1,10 +1,7 @@
 package no.ntnu.sjakkskjerm.tournament;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -32,6 +29,16 @@ public class TournamentController {
     @CrossOrigin("*")
     public List<Tournament> getTournaments() {
         return tournamentService.getAllTournaments();
+    }
+
+    /*
+     * Method that adds a tournament to the tournament list
+     */
+    @PostMapping(path = "/createtournament")
+    @CrossOrigin("*")
+    public void addTournament(@RequestBody Tournament tournament) {
+        tournamentService.addTournament(tournament);
+        System.out.println(tournament.toString());
     }
     
 
