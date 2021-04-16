@@ -30,14 +30,14 @@ public class MessageService {
 
         List<Message> originalList = messageRepository.findAll();
 
-       List<Message> originalList2 =
+       List<Message> filteredList =
                 originalList
                     .stream()
                     .filter(c -> tournamentId.equals(c.getTournamentId()))
                     .collect(Collectors.toList());
 
-       originalList2.forEach(System.out::println);
+        filteredList.forEach(System.out::println);
 
-       return originalList2;
+       return filteredList;
     }
 }
