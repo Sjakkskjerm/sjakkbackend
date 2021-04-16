@@ -1,24 +1,24 @@
 package no.ntnu.sjakkskjerm.livegame;
 
-import javax.persistence.ElementCollection;
+import no.ntnu.sjakkskjerm.livegame.pgn.PGN;
+
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
+import javax.persistence.FetchType;
 import javax.persistence.Id;
-import javax.persistence.SequenceGenerator;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
-import java.util.List;
 import java.util.Objects;
 
-@Entity
-@Table
 /**
  * Represents a live game being played on digital chessboards. Digital chessboards
  * and accompanying software can produce a PGN (Portable Game Notation)
  * representation of the state on the board. {@code LiveGame} will not hold
  * any information present in the PGN.
  */
+@Entity
+@Table
 public class LiveGame {
 
     @Id
@@ -28,14 +28,13 @@ public class LiveGame {
     @NotNull
     private Long tournamentId;
 
-    @NotNull
-    @ElementCollection
-    private List<String> pgn;
+    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "liveGame")
+    private PGN pgn;
 
     public LiveGame() {
     }
 
-    public LiveGame(Long id, Long tournamentId, List<String> pgn) {
+    public LiveGame(Long id, Long tournamentId, PGN pgn) {
         this.id = id;
         this.tournamentId = tournamentId;
         this.pgn = pgn;
@@ -57,12 +56,12 @@ public class LiveGame {
         this.tournamentId = tournamentId;
     }
 
-    public List<String> getPgn() {
+    public PGN getPgn() {
         return pgn;
     }
 
-    public void setPgn(List<String> pgns) {
-        this.pgn = pgns;
+    public void setPgn(PGN pgn) {
+        this.pgn = pgn;
     }
 
     @Override
@@ -73,8 +72,8 @@ public class LiveGame {
         if (o == null || getClass() != o.getClass()) {
             return false;
         }
-        LiveGame liveGame = (LiveGame) o;
-        return id.equals(liveGame.id) && tournamentId.equals(liveGame.tournamentId) && pgn.equals(liveGame.pgn);
+        LiveGame game = (LiveGame) o;
+        return id.equals(game.id) && tournamentId.equals(game.tournamentId) && pgn.equals(game.pgn);
     }
 
     @Override
@@ -87,7 +86,7 @@ public class LiveGame {
         return "LiveGame{" +
                 "id=" + id +
                 ", tournamentId=" + tournamentId +
-                ", pgns=" + pgn +
+                ", pgn=" + pgn +
                 '}';
     }
 }
