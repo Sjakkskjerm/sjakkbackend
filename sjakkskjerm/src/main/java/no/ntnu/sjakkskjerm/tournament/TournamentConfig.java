@@ -1,12 +1,14 @@
 package no.ntnu.sjakkskjerm.tournament;
 
-import no.ntnu.sjakkskjerm.message.Message;
-import no.ntnu.sjakkskjerm.message.MessageRepository;
+import no.ntnu.sjakkskjerm.livegame.LiveGame;
+import no.ntnu.sjakkskjerm.livegame.LiveGameRepository;
+import no.ntnu.sjakkskjerm.livegame.pgn.PGN;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 
 import static java.time.Month.*;
@@ -17,36 +19,169 @@ public class TournamentConfig {
     @Bean
     CommandLineRunner commandLineRunner2(TournamentRepository repository) {
         return args -> {
-            Tournament testTournament = new Tournament(
-                   1L,
-                    LocalDate.of(2021, APRIL, 5),
-                    LocalDate.of(2021, APRIL, 20),
-                    5,
-                    4,
-                    "Ola Normann",
-                    "The Easter Chess Championship 2021"
-            );
-            Tournament testTournament2 = new Tournament(
-                    2L,
-                    LocalDate.of(2021, JUNE, 5),
-                    LocalDate.of(2021, JUNE, 15),
-                    6,
-                    3,
-                    "Per Atle Steinar",
-                    "Per Atle Steinars Toten Turnering"
-            );
-            Tournament testTournament3 = new Tournament(
-                    3L,
-                    LocalDate.of(2021, DECEMBER, 25),
-                    LocalDate.of(2022, JANUARY, 5),
-                    9,
-                    2,
-                    "Julenissen",
-                    "New Year 2021  North Pole Chess Open"
-            );
+
+            ArrayList<String> pgnExampleOne = new ArrayList<>(List.of(
+                    "[Event 'Casual Game']",
+                    "[Site 'Berlin GER']",
+                    "[Date '1852.??.??']",
+                    "[EventDate '?']",
+                    "[Round '?']",
+                    "[Result '1-0']",
+                    "[White 'Adolf Anderssen']",
+                    "[Black 'Jean Dufresne']",
+                    "[ECO 'C52']",
+                    "[WhiteElo '?']",
+                    "[BlackElo '?']",
+                    "[PlyCount '47']",
+                    "",
+                    "1.e4 e5 2.Nf3 Nc6 3.Bc4 Bc5 4.b4 Bxb4 5.c3 Ba5 6.d4 exd4 7.O-O",
+                    "d3 8.Qb3 Qf6 9.e5 Qg6 10.Re1 Nge7 11.Ba3 b5 12.Qxb5 Rb8 13.Qa4",
+                    "Bb6 14.Nbd2 Bb7 15.Ne4 Qf5 16.Bxd3 Qh5 17.Nf6+ gxf6 18.exf6,\n",
+                    "Rg8 19.Rad1 Qxf3 20.Rxe7+ Nxe7 21.Qxd7+ Kxd7 22.Bf5+ Ke8,\n",
+                    "23.Bd7+ Kf8 24.Bxe7# 1-0"
+            ));
+            ArrayList<String> pgnExampleTwo = new ArrayList<>(List.of(
+                    "[Event 'Casual Game']",
+                    "[Site 'Berlin GER']",
+                    "[Date '1852.??.??']",
+                    "[EventDate '?']",
+                    "[Round '?']",
+                    "[Result '1-0']",
+                    "[White 'Adolf Anderssen']",
+                    "[Black 'Jean Dufresne']",
+                    "[ECO 'C52']",
+                    "[WhiteElo '?']",
+                    "[BlackElo '?']",
+                    "[PlyCount '47']",
+                    "",
+                    "1.e4 e5 2.Nf3 Nc6 3.Bc4 Bc5 4.b4 Bxb4 5.c3 Ba5 6.d4 exd4 7.O-O",
+                    "d3 8.Qb3 Qf6 9.e5 Qg6 10.Re1 Nge7 11.Ba3 b5 12.Qxb5 Rb8 13.Qa4"
+            ));
+            ArrayList<String> pgnExampleThree = new ArrayList<>(List.of(
+                    "[Event 'Casual Game']",
+                    "[Site 'Berlin GER']",
+                    "[Date '1852.??.??']",
+                    "[EventDate '?']",
+                    "[Round '?']",
+                    "[Result '1-0']",
+                    "[White 'Adolf Anderssen']",
+                    "[Black 'Jean Dufresne']",
+                    "[ECO 'C52']",
+                    "[WhiteElo '?']",
+                    "[BlackElo '?']",
+                    "[PlyCount '47']",
+                    "",
+                    "1.e4 e5 2.Nf3 Nc6 3.Bc4 Bc5 4.b4 Bxb4 5.c3 Ba5 6.d4 exd4 7.O-O",
+                    "d3 8.Qb3 Qf6 9.e5 Qg6 10.Re1 Nge7 11.Ba3 b5 12.Qxb5 Rb8 13.Qa4",
+                    "Bb6 14.Nbd2 Bb7 15.Ne4 Qf5 16.Bxd3 Qh5 17.Nf6+ gxf6 18.exf6"));
+            ArrayList<String> pgnExampleFour = new ArrayList<>(List.of(
+                    "[Event 'Casual Game']",
+                    "[Site 'Berlin GER']",
+                    "[Date '1852.??.??']",
+                    "[EventDate '?']",
+                    "[Round '?']",
+                    "[Result '1-0']",
+                    "[White 'Adolf Anderssen']",
+                    "[Black 'Jean Dufresne']",
+                    "[ECO 'C52']",
+                    "[WhiteElo '?']",
+                    "[BlackElo '?']",
+                    "[PlyCount '47']",
+                    "",
+                    "1.e4 e5 2.Nf3 Nc6 3.Bc4 Bc5 4.b4 Bxb4 5.c3 Ba5"
+            ));
+
+            PGN pgnOne = new PGN();
+            PGN pgnTwo = new PGN();
+            PGN pgnThree = new PGN();
+            PGN pgnFour = new PGN();
+            PGN pgnFive = new PGN();
+            PGN pgnSix = new PGN();
+            PGN pgnSeven = new PGN();
+            PGN pgnEight = new PGN();
+            PGN pgnNine = new PGN();
+
+            pgnOne.setLines(pgnExampleOne);
+            pgnTwo.setLines(pgnExampleTwo);
+            pgnThree.setLines(pgnExampleThree);
+            pgnFour.setLines(pgnExampleFour);
+            pgnFive.setLines(pgnExampleOne);
+            pgnSix.setLines(pgnExampleTwo);
+            pgnSeven.setLines(pgnExampleThree);
+            pgnEight.setLines(pgnExampleFour);
+            pgnNine.setLines(pgnExampleOne);
+
+            LiveGame gameOneTournamentOne = new LiveGame();
+            LiveGame gameTwoTournamentOne = new LiveGame();
+            LiveGame gameThreeTournamentOne = new LiveGame();
+            LiveGame gameFourTournamentTwo = new LiveGame();
+            LiveGame gameFiveTournamentTwo = new LiveGame();
+            LiveGame gameSixTournamentTwo = new LiveGame();
+            LiveGame gameSevenTournamentTwo = new LiveGame();
+            LiveGame gameEightTournamentTwo = new LiveGame();
+            LiveGame gameNineTournamentTwo = new LiveGame();
+
+//            gameOneTournamentOne.setId(1L);
+            gameOneTournamentOne.setPgn(pgnOne);
+//            gameTwoTournamentOne.setId(2L);
+            gameTwoTournamentOne.setPgn(pgnTwo);
+//            gameThreeTournamentOne.setId(3L);
+            gameThreeTournamentOne.setPgn(pgnThree);
+//            gameFourTournamentTwo.setId(4L);
+            gameFourTournamentTwo.setPgn(pgnFour);
+//            gameFiveTournamentTwo.setId(5L);
+            gameFiveTournamentTwo.setPgn(pgnFive);
+//            gameSixTournamentTwo.setId(6L);
+            gameSixTournamentTwo.setPgn(pgnSix);
+//            gameSevenTournamentTwo.setId(7L);
+            gameSevenTournamentTwo.setPgn(pgnSeven);
+//            gameEightTournamentTwo.setId(8L);
+            gameEightTournamentTwo.setPgn(pgnEight);
+//            gameNineTournamentTwo.setId(9L);
+            gameNineTournamentTwo.setPgn(pgnNine);
+
+            pgnOne.setLiveGame(gameOneTournamentOne);
+            pgnTwo.setLiveGame(gameTwoTournamentOne);
+            pgnThree.setLiveGame(gameThreeTournamentOne);
+            pgnFour.setLiveGame(gameFourTournamentTwo);
+            pgnFive.setLiveGame(gameFiveTournamentTwo);
+            pgnSix.setLiveGame(gameSixTournamentTwo);
+            pgnSeven.setLiveGame(gameSevenTournamentTwo);
+            pgnEight.setLiveGame(gameEightTournamentTwo);
+            pgnNine.setLiveGame(gameNineTournamentTwo);
+
+            Tournament tournamentOne = new Tournament();
+            tournamentOne.setStartDate(LocalDate.of(2021, APRIL, 5));
+            tournamentOne.setEndDate(LocalDate.of(2021, APRIL, 20));
+            tournamentOne.setTournamentOrganizer("Ola Normann");
+            tournamentOne.setTournamentName("The Easter Chess Championship 2021");
+            tournamentOne.setGames(List.of(gameOneTournamentOne, gameTwoTournamentOne, gameThreeTournamentOne));
+            gameOneTournamentOne.setTournament(tournamentOne);
+            gameTwoTournamentOne.setTournament(tournamentOne);
+            gameThreeTournamentOne.setTournament(tournamentOne);
+
+            Tournament tournamentTwo = new Tournament();
+            tournamentTwo.setStartDate(LocalDate.of(2021, JUNE, 5));
+            tournamentTwo.setEndDate(LocalDate.of(2021, JUNE, 15));
+            tournamentTwo.setTournamentOrganizer("Per Atle Steinar");
+            tournamentTwo.setTournamentName("Per Atle Steinars Toten Turnering");
+            tournamentTwo.setGames(List.of(gameFourTournamentTwo, gameFiveTournamentTwo, gameSixTournamentTwo, gameSevenTournamentTwo, gameEightTournamentTwo, gameNineTournamentTwo));
+            gameFourTournamentTwo.setTournament(tournamentTwo);
+            gameFiveTournamentTwo.setTournament(tournamentTwo);
+            gameSixTournamentTwo.setTournament(tournamentTwo);
+            gameSevenTournamentTwo.setTournament(tournamentTwo);
+            gameEightTournamentTwo.setTournament(tournamentTwo);
+            gameNineTournamentTwo.setTournament(tournamentTwo);
+
+            Tournament tournamentThree = new Tournament();
+            tournamentThree.setStartDate(LocalDate.of(2021, DECEMBER, 25));
+            tournamentThree.setEndDate(LocalDate.of(2022, JANUARY, 5));
+            tournamentThree.setTournamentOrganizer("Julenissen");
+            tournamentThree.setTournamentName("New Year 2021  North Pole Chess Open");
+//            tournamentThree.setGames(List.of(new LiveGame()));
 
             repository.saveAll(
-                    List.of(testTournament, testTournament2, testTournament3)
+                    List.of(tournamentOne, tournamentTwo, tournamentThree)
             );
         };
     }

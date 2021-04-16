@@ -1,20 +1,28 @@
 package no.ntnu.sjakkskjerm.livegame;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import no.ntnu.sjakkskjerm.livegame.pgn.PGN;
+import no.ntnu.sjakkskjerm.tournament.Tournament;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
+import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
-import javax.validation.constraints.NotNull;
 import java.util.Objects;
 
 /**
  * Represents a live game being played on digital chessboards. Digital chessboards
  * and accompanying software can produce a PGN (Portable Game Notation)
- * representation of the state on the board. {@code LiveGame} will not hold
+ * representation of the state on the board. {@link LiveGame} will not hold
  * any information present in the PGN.
  */
 @Entity
@@ -22,11 +30,15 @@ import java.util.Objects;
 public class LiveGame {
 
     @Id
-//    @SequenceGenerator(name="livegame_sequence", sequenceName = "melding_sequence", allocationSize = 1)
-//    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "livegame_sequence")
+    @SequenceGenerator(name="livegame_sequence", sequenceName = "livegame_sequence", allocationSize = 1)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "livegame_sequence")
     private Long id;
-    @NotNull
-    private Long tournamentId;
+
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "tournament_id", nullable = false)
+    @OnDelete(action = OnDeleteAction.CASCADE)
+    @JsonIgnore
+    private Tournament tournament;
 
     @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "liveGame")
     private PGN pgn;
@@ -34,9 +46,9 @@ public class LiveGame {
     public LiveGame() {
     }
 
-    public LiveGame(Long id, Long tournamentId, PGN pgn) {
+    public LiveGame(Long id, Tournament tournament, PGN pgn) {
         this.id = id;
-        this.tournamentId = tournamentId;
+        this.tournament = tournament;
         this.pgn = pgn;
     }
 
@@ -48,12 +60,12 @@ public class LiveGame {
         return id;
     }
 
-    public Long getTournamentId() {
-        return tournamentId;
+    public Tournament getTournament() {
+        return tournament;
     }
 
-    public void setTournamentId(Long tournamentId) {
-        this.tournamentId = tournamentId;
+    public void setTournament(Tournament tournament) {
+        this.tournament = tournament;
     }
 
     public PGN getPgn() {
@@ -73,20 +85,18 @@ public class LiveGame {
             return false;
         }
         LiveGame game = (LiveGame) o;
-        return id.equals(game.id) && tournamentId.equals(game.tournamentId) && pgn.equals(game.pgn);
+        return id.equals(game.id) && tournament.equals(game.tournament) && pgn.equals(game.pgn);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, tournamentId, pgn);
+        return Objects.hash(id, tournament, pgn);
     }
 
     @Override
     public String toString() {
         return "LiveGame{" +
                 "id=" + id +
-                ", tournamentId=" + tournamentId +
-                ", pgn=" + pgn +
                 '}';
     }
 }
