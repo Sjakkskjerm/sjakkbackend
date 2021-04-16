@@ -41,7 +41,6 @@ public class LiveGameController {
     @GetMapping("/gamesfortournament/{id}")
     public List<LiveGame> getGamesByTournamentId(@PathVariable Long id) {
         List<LiveGame> games = liveGameService.getGamesByTournamentId(id);
-        System.out.println(games.isEmpty());
         return liveGameService.getGamesByTournamentId(id);
     }
 }

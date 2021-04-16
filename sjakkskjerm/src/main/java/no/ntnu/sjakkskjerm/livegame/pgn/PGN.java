@@ -13,7 +13,6 @@ import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
-import javax.persistence.Transient;
 import java.util.List;
 import java.util.Objects;
 
@@ -30,12 +29,13 @@ public class PGN {
     @SequenceGenerator(name="pgn_sequence", sequenceName = "pgn_sequence", allocationSize = 1)
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "pgn_sequence")
     private Long id;
+
     @ElementCollection
     private List<String> lines;
 
     @JsonIgnore
     @OneToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "livegame", nullable = false)
+    @JoinColumn(name = "livegame_id", nullable = false)
     private LiveGame liveGame;
 
     public PGN() {

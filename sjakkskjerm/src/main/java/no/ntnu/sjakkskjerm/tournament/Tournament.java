@@ -8,29 +8,26 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
 import java.time.LocalDate;
 import java.util.List;
 
-/*
- * An entity class for tournaments
- */
+
 @Entity
 public class Tournament {
     @Id
     @SequenceGenerator(name="tournament_sequence", sequenceName = "tournament_sequence", allocationSize = 1)
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "tournament_sequence")
-    private Long id;                     // Unique ID for each tournament
+    private Long id;
 
-    private LocalDate startDate;         // The start date of the tournament
-    private LocalDate endDate;           // The end date of the tournament
-    private int numberOfRounds;          // The number of rounds that will be played in the tournament
-    private int gamesPerRound;           // The number of games per round that will be played in the tournament
-    private String tournamentOrganizer;  // The person or club that arranges/organizes the tournament
-    private String tournamentName;       // The name of the tournament
-    private Long owner;                  // The ID of a user in the system that is an Owner
+    private LocalDate startDate;
+    private LocalDate endDate;
+    private int numberOfRounds;
+    private int gamesPerRound;
+    private String tournamentOrganizer;
+    private String tournamentName;
+    private Long owner;
 
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "tournament")
     private List<LiveGame> games;

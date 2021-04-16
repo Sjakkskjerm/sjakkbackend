@@ -21,7 +21,7 @@ import java.util.Objects;
 
 /**
  * Represents a live game being played on digital chessboards. Digital chessboards
- * and accompanying software can produce a PGN (Portable Game Notation)
+ * and accompanying software can produce a {@link PGN} (Portable Game Notation)
  * representation of the state on the board. {@link LiveGame} will not hold
  * any information present in the PGN.
  */
