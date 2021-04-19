@@ -4,12 +4,11 @@ package no.ntnu.sjakkskjerm.auth.models;
 import javax.persistence.*;
 
 @Entity
-@Table(name = "s")
+@Table(name = "roles")
 public class Role {
 
     @Id
-    @SequenceGenerator(name = "role_sequence", sequenceName = "role_sequence", allocationSize = 1)
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "role_sequence")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long roleId;
 
     @Enumerated(EnumType.STRING)

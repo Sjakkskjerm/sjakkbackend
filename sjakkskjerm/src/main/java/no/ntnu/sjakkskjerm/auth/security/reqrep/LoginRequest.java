@@ -1,4 +1,4 @@
-package no.ntnu.sjakkskjerm.auth.security.payload;
+package no.ntnu.sjakkskjerm.auth.security.reqrep;
 
 import javax.validation.constraints.NotBlank;
 

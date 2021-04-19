@@ -22,7 +22,7 @@ public class User {
     private String username;
 
     @NotBlank
-    @Size(max = 25)
+    @Size(max = 75)
     private String password;
 
     @NotBlank
@@ -30,7 +30,6 @@ public class User {
     private String email;
 
     @NotBlank
-    @Size(max = 35)
     private String club;
 
     @ManyToMany(fetch = FetchType.LAZY)

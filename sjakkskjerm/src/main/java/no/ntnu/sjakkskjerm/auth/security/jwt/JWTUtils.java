@@ -15,16 +15,14 @@ import java.util.Date;
 public class JWTUtils {
     private static final Logger logger = LoggerFactory.getLogger(JWTUtils.class);
 
-    @Value("{sjakkskjerm.app.jwtSecret}")
-    private String jwtSecret;
+    private String jwtSecret = "toppHemmeligKeyHer";
 
-    @Value("{sjakkskjerm.app.jwtExpirationTime}")
-    private int jwtExpirationTime;
+    private int jwtExpirationTime = 86400000;
 
     public String generateJwtToken(Authentication authentication) {
-        UserDetailsImpl userDetails = (UserDetailsImpl) authentication.getPrincipal();
+        UserDetailsImpl authenticationPrincipal = (UserDetailsImpl) authentication.getPrincipal();
 
-        return Jwts.builder().setSubject((userDetails.getUsername())).setIssuedAt(new Date())
+        return Jwts.builder().setSubject((authenticationPrincipal.getUsername())).setIssuedAt(new Date())
                 .setExpiration(new Date((new Date()).getTime() + jwtExpirationTime)).signWith(SignatureAlgorithm.HS512, jwtSecret)
                 .compact();
     }
