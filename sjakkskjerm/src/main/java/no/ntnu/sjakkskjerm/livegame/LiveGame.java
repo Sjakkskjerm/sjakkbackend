@@ -9,13 +9,10 @@ import org.hibernate.annotations.OnDeleteAction;
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
-import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import java.util.Objects;
 
@@ -30,9 +27,7 @@ import java.util.Objects;
 public class LiveGame {
 
     @Id
-    @SequenceGenerator(name="livegame_sequence", sequenceName = "livegame_sequence", allocationSize = 1)
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "livegame_sequence")
-    private Long id;
+    private String id;
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "tournament_id", nullable = false)
@@ -46,17 +41,17 @@ public class LiveGame {
     public LiveGame() {
     }
 
-    public LiveGame(Long id, Tournament tournament, PGN pgn) {
+    public LiveGame(String id, Tournament tournament, PGN pgn) {
         this.id = id;
         this.tournament = tournament;
         this.pgn = pgn;
     }
 
-    public void setId(Long id) {
+    public void setId(String id) {
         this.id = id;
     }
 
-    public Long getId() {
+    public String getId() {
         return id;
     }
 

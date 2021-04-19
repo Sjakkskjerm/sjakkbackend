@@ -29,7 +29,7 @@ public class LiveGameController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<LiveGame> getGame(HttpServletResponse response, @PathVariable Long id) {
+    public ResponseEntity<LiveGame> getGame(HttpServletResponse response, @PathVariable String id) {
         LiveGame game = liveGameService.getGame(id);
         if (game == null) {
             response.setStatus(404);

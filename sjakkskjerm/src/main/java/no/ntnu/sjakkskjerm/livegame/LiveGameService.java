@@ -20,7 +20,7 @@ public class LiveGameService {
         return liveGameRepository.findAll();
     }
 
-    public LiveGame getGame(Long liveGameId) {
+    public LiveGame getGame(String liveGameId) {
         if (liveGameId == null) {
             return null;
         }

@@ -29,7 +29,7 @@ public class Tournament {
     private String tournamentName;
     private Long owner;
 
-    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "tournament")
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, mappedBy = "tournament")
     private List<LiveGame> games;
 
     public Tournament() { }

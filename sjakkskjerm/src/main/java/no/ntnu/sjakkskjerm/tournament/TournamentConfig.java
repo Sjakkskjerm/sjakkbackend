@@ -1,7 +1,6 @@
 package no.ntnu.sjakkskjerm.tournament;
 
 import no.ntnu.sjakkskjerm.livegame.LiveGame;
-import no.ntnu.sjakkskjerm.livegame.LiveGameRepository;
 import no.ntnu.sjakkskjerm.livegame.pgn.PGN;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Bean;
@@ -17,7 +16,7 @@ import static java.time.Month.*;
 public class TournamentConfig {
 
     @Bean
-    CommandLineRunner commandLineRunner2(TournamentRepository repository) {
+    CommandLineRunner addTournamentsToDatabase(TournamentRepository repository) {
         return args -> {
 
             ArrayList<String> pgnExampleOne = new ArrayList<>(List.of(
@@ -121,23 +120,24 @@ public class TournamentConfig {
             LiveGame gameEightTournamentTwo = new LiveGame();
             LiveGame gameNineTournamentTwo = new LiveGame();
 
-//            gameOneTournamentOne.setId(1L);
+            gameOneTournamentOne.setId("101");
+            gameTwoTournamentOne.setId("102");
+            gameThreeTournamentOne.setId("103");
+            gameFourTournamentTwo.setId("201");
+            gameFiveTournamentTwo.setId("202");
+            gameSixTournamentTwo.setId("203");
+            gameSevenTournamentTwo.setId("204");
+            gameEightTournamentTwo.setId("205");
+            gameNineTournamentTwo.setId("206");
+
             gameOneTournamentOne.setPgn(pgnOne);
-//            gameTwoTournamentOne.setId(2L);
             gameTwoTournamentOne.setPgn(pgnTwo);
-//            gameThreeTournamentOne.setId(3L);
             gameThreeTournamentOne.setPgn(pgnThree);
-//            gameFourTournamentTwo.setId(4L);
             gameFourTournamentTwo.setPgn(pgnFour);
-//            gameFiveTournamentTwo.setId(5L);
             gameFiveTournamentTwo.setPgn(pgnFive);
-//            gameSixTournamentTwo.setId(6L);
             gameSixTournamentTwo.setPgn(pgnSix);
-//            gameSevenTournamentTwo.setId(7L);
             gameSevenTournamentTwo.setPgn(pgnSeven);
-//            gameEightTournamentTwo.setId(8L);
             gameEightTournamentTwo.setPgn(pgnEight);
-//            gameNineTournamentTwo.setId(9L);
             gameNineTournamentTwo.setPgn(pgnNine);
 
             pgnOne.setLiveGame(gameOneTournamentOne);
@@ -178,11 +178,18 @@ public class TournamentConfig {
             tournamentThree.setEndDate(LocalDate.of(2022, JANUARY, 5));
             tournamentThree.setTournamentOrganizer("Julenissen");
             tournamentThree.setTournamentName("New Year 2021  North Pole Chess Open");
-//            tournamentThree.setGames(List.of(new LiveGame()));
 
             repository.saveAll(
                     List.of(tournamentOne, tournamentTwo, tournamentThree)
             );
+        };
+    }
+
+    @Bean
+    CommandLineRunner addGameToTournament(TournamentRepository repository, TournamentService service) {
+        return args -> {
+            Tournament tournament = repository.getOne(3L);
+            service.addGameToTournament(tournament.getId(), "01");
         };
     }
 }
