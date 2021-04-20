@@ -1,7 +1,6 @@
 package no.ntnu.sjakkskjerm.tournament;
 
 import no.ntnu.sjakkskjerm.livegame.LiveGame;
-import no.ntnu.sjakkskjerm.livegame.LiveGameRepository;
 import no.ntnu.sjakkskjerm.livegame.LiveGameService;
 import no.ntnu.sjakkskjerm.livegame.pgn.PGN;
 import org.springframework.boot.CommandLineRunner;
@@ -371,6 +370,7 @@ public class TournamentConfig {
             ));
             long timeBetweenSteps = 10000L;
             long nextStepTime = System.currentTimeMillis() + timeBetweenSteps;
+            long maxRunTime = System.currentTimeMillis() + 300000L; //1800000 milliseconds = 30 minutes
             boolean finished = false;
             int step = 0;
             int maxSteps = pgnSteps.size() - 1;
@@ -382,6 +382,9 @@ public class TournamentConfig {
                     step++;
                 }
                 if (step == maxSteps) {
+                    step = 0;
+                }
+                if (System.currentTimeMillis() >= maxRunTime) {
                     finished = true;
                 }
             }
