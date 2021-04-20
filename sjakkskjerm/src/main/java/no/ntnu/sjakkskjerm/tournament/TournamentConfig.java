@@ -1,6 +1,8 @@
 package no.ntnu.sjakkskjerm.tournament;
 
 import no.ntnu.sjakkskjerm.livegame.LiveGame;
+import no.ntnu.sjakkskjerm.livegame.LiveGameRepository;
+import no.ntnu.sjakkskjerm.livegame.LiveGameService;
 import no.ntnu.sjakkskjerm.livegame.pgn.PGN;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Bean;
@@ -190,6 +192,199 @@ public class TournamentConfig {
         return args -> {
             Tournament tournament = repository.getOne(3L);
             service.addGameToTournament(tournament.getId(), "01");
+        };
+    }
+
+    @Bean
+    CommandLineRunner addPGNToGame(LiveGameService service) {
+        return args -> {
+            ArrayList<String> pgnStepOne = new ArrayList<>(List.of(
+                    "[Event 'Casual Game']",
+                    "[Site 'Berlin GER']",
+                    "[Date '1852.??.??']",
+                    "[EventDate '?']",
+                    "[Round '?']",
+                    "[Result '1-0']",
+                    "[White 'Adolf Anderssen']",
+                    "[Black 'Jean Dufresne']",
+                    "[ECO 'C52']",
+                    "[WhiteElo '?']",
+                    "[BlackElo '?']",
+                    "[PlyCount '47']",
+                    "",
+                    "1.e4"
+            ));
+            ArrayList<String> pgnStepTwo = new ArrayList<>(List.of(
+                    "[Event 'Casual Game']",
+                    "[Site 'Berlin GER']",
+                    "[Date '1852.??.??']",
+                    "[EventDate '?']",
+                    "[Round '?']",
+                    "[Result '1-0']",
+                    "[White 'Adolf Anderssen']",
+                    "[Black 'Jean Dufresne']",
+                    "[ECO 'C52']",
+                    "[WhiteElo '?']",
+                    "[BlackElo '?']",
+                    "[PlyCount '47']",
+                    "",
+                    "1.e4 e5"
+            ));
+            ArrayList<String> pgnStepThree = new ArrayList<>(List.of(
+                    "[Event 'Casual Game']",
+                    "[Site 'Berlin GER']",
+                    "[Date '1852.??.??']",
+                    "[EventDate '?']",
+                    "[Round '?']",
+                    "[Result '1-0']",
+                    "[White 'Adolf Anderssen']",
+                    "[Black 'Jean Dufresne']",
+                    "[ECO 'C52']",
+                    "[WhiteElo '?']",
+                    "[BlackElo '?']",
+                    "[PlyCount '47']",
+                    "",
+                    "1.e4 e5 2.Nf3"
+            ));
+            ArrayList<String> pgnStepFour = new ArrayList<>(List.of(
+                    "[Event 'Casual Game']",
+                    "[Site 'Berlin GER']",
+                    "[Date '1852.??.??']",
+                    "[EventDate '?']",
+                    "[Round '?']",
+                    "[Result '1-0']",
+                    "[White 'Adolf Anderssen']",
+                    "[Black 'Jean Dufresne']",
+                    "[ECO 'C52']",
+                    "[WhiteElo '?']",
+                    "[BlackElo '?']",
+                    "[PlyCount '47']",
+                    "",
+                    "1.e4 e5 2.Nf3 Nc6"
+            ));
+            ArrayList<String> pgnStepFive = new ArrayList<>(List.of(
+                    "[Event 'Casual Game']",
+                    "[Site 'Berlin GER']",
+                    "[Date '1852.??.??']",
+                    "[EventDate '?']",
+                    "[Round '?']",
+                    "[Result '1-0']",
+                    "[White 'Adolf Anderssen']",
+                    "[Black 'Jean Dufresne']",
+                    "[ECO 'C52']",
+                    "[WhiteElo '?']",
+                    "[BlackElo '?']",
+                    "[PlyCount '47']",
+                    "",
+                    "1.e4 e5 2.Nf3 Nc6 3.Bc4"
+            ));
+            ArrayList<String> pgnStepSix = new ArrayList<>(List.of(
+                    "[Event 'Casual Game']",
+                    "[Site 'Berlin GER']",
+                    "[Date '1852.??.??']",
+                    "[EventDate '?']",
+                    "[Round '?']",
+                    "[Result '1-0']",
+                    "[White 'Adolf Anderssen']",
+                    "[Black 'Jean Dufresne']",
+                    "[ECO 'C52']",
+                    "[WhiteElo '?']",
+                    "[BlackElo '?']",
+                    "[PlyCount '47']",
+                    "",
+                    "1.e4 e5 2.Nf3 Nc6 3.Bc4 Bc5"
+            ));
+            ArrayList<String> pgnStepSeven = new ArrayList<>(List.of(
+                    "[Event 'Casual Game']",
+                    "[Site 'Berlin GER']",
+                    "[Date '1852.??.??']",
+                    "[EventDate '?']",
+                    "[Round '?']",
+                    "[Result '1-0']",
+                    "[White 'Adolf Anderssen']",
+                    "[Black 'Jean Dufresne']",
+                    "[ECO 'C52']",
+                    "[WhiteElo '?']",
+                    "[BlackElo '?']",
+                    "[PlyCount '47']",
+                    "",
+                    "1.e4 e5 2.Nf3 Nc6 3.Bc4 Bc5 4.b4"
+            ));
+            ArrayList<String> pgnStepEight = new ArrayList<>(List.of(
+                    "[Event 'Casual Game']",
+                    "[Site 'Berlin GER']",
+                    "[Date '1852.??.??']",
+                    "[EventDate '?']",
+                    "[Round '?']",
+                    "[Result '1-0']",
+                    "[White 'Adolf Anderssen']",
+                    "[Black 'Jean Dufresne']",
+                    "[ECO 'C52']",
+                    "[WhiteElo '?']",
+                    "[BlackElo '?']",
+                    "[PlyCount '47']",
+                    "",
+                    "1.e4 e5 2.Nf3 Nc6 3.Bc4 Bc5 4.b4 Bxb4"
+            ));
+            ArrayList<String> pgnStepNine = new ArrayList<>(List.of(
+                    "[Event 'Casual Game']",
+                    "[Site 'Berlin GER']",
+                    "[Date '1852.??.??']",
+                    "[EventDate '?']",
+                    "[Round '?']",
+                    "[Result '1-0']",
+                    "[White 'Adolf Anderssen']",
+                    "[Black 'Jean Dufresne']",
+                    "[ECO 'C52']",
+                    "[WhiteElo '?']",
+                    "[BlackElo '?']",
+                    "[PlyCount '47']",
+                    "",
+                    "1.e4 e5 2.Nf3 Nc6 3.Bc4 Bc5 4.b4 Bxb4 5.c3"
+            ));
+            ArrayList<String> pgnStepTen = new ArrayList<>(List.of(
+                    "[Event 'Casual Game']",
+                    "[Site 'Berlin GER']",
+                    "[Date '1852.??.??']",
+                    "[EventDate '?']",
+                    "[Round '?']",
+                    "[Result '1-0']",
+                    "[White 'Adolf Anderssen']",
+                    "[Black 'Jean Dufresne']",
+                    "[ECO 'C52']",
+                    "[WhiteElo '?']",
+                    "[BlackElo '?']",
+                    "[PlyCount '47']",
+                    "",
+                    "1.e4 e5 2.Nf3 Nc6 3.Bc4 Bc5 4.b4 Bxb4 5.c3 Ba5"));
+            ArrayList<ArrayList<String>> pgnSteps = new ArrayList<ArrayList<String>>(List.of(
+                    pgnStepOne,
+                    pgnStepTwo,
+                    pgnStepThree,
+                    pgnStepFour,
+                    pgnStepFive,
+                    pgnStepSix,
+                    pgnStepSeven,
+                    pgnStepEight,
+                    pgnStepNine,
+                    pgnStepTen
+            ));
+            long timeBetweenSteps = 10000L;
+            long nextStepTime = System.currentTimeMillis() + timeBetweenSteps;
+            boolean finished = false;
+            int step = 0;
+            int maxSteps = pgnSteps.size() - 1;
+
+            while (!finished) {
+                if (nextStepTime < System.currentTimeMillis()) {
+                    service.updateGame("301", pgnSteps.get(step));
+                    nextStepTime+= timeBetweenSteps;
+                    step++;
+                }
+                if (step == maxSteps) {
+                    finished = true;
+                }
+            }
         };
     }
 }
