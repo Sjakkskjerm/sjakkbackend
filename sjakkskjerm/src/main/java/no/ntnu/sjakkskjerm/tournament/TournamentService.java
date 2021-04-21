@@ -31,19 +31,29 @@ public class TournamentService {
     }
 
     public String addGameToTournament(Long tournamentId, String gameId) {
+        String validatedGameId = validGameId(gameId);
+
         Optional<Tournament> tournamentOptional = tournamentRepository.findById(tournamentId);
-        Optional<LiveGame> liveGameOptional = liveGameRepository.findById(tournamentId.toString()+gameId);
+        Optional<LiveGame> liveGameOptional = liveGameRepository.findById(tournamentId.toString()+validatedGameId);
         if (!tournamentOptional.isPresent() || liveGameOptional.isPresent()) {
             return null;
         }
         Tournament tournament = tournamentOptional.get();
         LiveGame liveGame = new LiveGame();
-        liveGame.setId(tournament.getId() + gameId);
+        liveGame.setId(tournament.getId() + validatedGameId);
         liveGame.setTournament(tournament);
         List<LiveGame> games = tournament.getGames();
         games.add(liveGame);
         tournament.setGames(games);
         tournamentRepository.save(tournament);
         return liveGame.getId();
+    }
+
+    private String validGameId(String gameId) {
+        System.out.println(gameId);
+        if (gameId.length() > 1) {
+            return  gameId;
+        }
+        return "0"+gameId;
     }
 }
