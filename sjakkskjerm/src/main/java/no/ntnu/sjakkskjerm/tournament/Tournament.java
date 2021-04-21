@@ -15,7 +15,6 @@ import java.util.List;
 
 
 @Entity
-@Table
 public class Tournament {
     @Id
     @SequenceGenerator(name="tournament_sequence", sequenceName = "tournament_sequence", allocationSize = 1)
@@ -96,6 +95,14 @@ public class Tournament {
     }
 
     public void setTournamentName(String tournamentName) { this.tournamentName = tournamentName; }
+
+    public Long getOwner() {
+        return owner;
+    }
+
+    public void setOwner(Long owner) {
+        this.owner = owner;
+    }
 
     public List<LiveGame> getGames() {
         return games;
