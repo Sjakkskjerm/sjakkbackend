@@ -1,6 +1,7 @@
 package no.ntnu.sjakkskjerm.tournament;
 
 import no.ntnu.sjakkskjerm.tournament.exceptions.AddGameException;
+import no.ntnu.sjakkskjerm.tournament.exceptions.TournamentNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -38,5 +39,23 @@ public class TournamentController {
             throw new AddGameException();
         }
         return ResponseEntity.ok(newid);
+    }
+
+    @PostMapping("/setgamesperround")
+    public ResponseEntity<Tournament> setGamesPerRound(@RequestParam(name= "tournamentid") long tournamentId, @RequestParam(name = "gamesperround") int numberOfGames) {
+        Tournament updatedTournament = this.tournamentService.setGamesPerRound(tournamentId, numberOfGames);
+        if (updatedTournament == null) {
+            throw new TournamentNotFoundException(tournamentId);
+        }
+        return ResponseEntity.ok(updatedTournament);
+    }
+
+    @PostMapping("/setnumberofrounds")
+    public ResponseEntity<Tournament> setNumberOfRounds(@RequestParam(name = "tournamentid") long tournamentid, @RequestParam(name = "numberofrounds") int numberOfRounds) {
+        Tournament updatedTournament = this.tournamentService.setNumberOfRounds(tournamentid, numberOfRounds);
+        if (updatedTournament == null) {
+            throw new TournamentNotFoundException(tournamentid);
+        }
+        return ResponseEntity.ok(updatedTournament);
     }
 }

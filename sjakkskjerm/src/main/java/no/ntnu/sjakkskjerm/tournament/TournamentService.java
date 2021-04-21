@@ -56,4 +56,26 @@ public class TournamentService {
         }
         return "0"+gameId;
     }
+
+    public Tournament setGamesPerRound(long tournamentId, int numberOfGames) {
+        Optional<Tournament> tournamentOptional = tournamentRepository.findById(tournamentId);
+        if (!tournamentOptional.isPresent()) {
+            return null;
+        }
+        Tournament tournament = tournamentOptional.get();
+        tournament.setGamesPerRound(numberOfGames);
+        tournamentRepository.save(tournament);
+        return tournament;
+    }
+
+    public Tournament setNumberOfRounds(long tournamentid, int numberOfRounds) {
+        Optional<Tournament> tournamentOptional = tournamentRepository.findById(tournamentid);
+        if (!tournamentOptional.isPresent()) {
+            return null;
+        }
+        Tournament tournament = tournamentOptional.get();
+        tournament.setNumberOfRounds(numberOfRounds);
+        tournamentRepository.save(tournament);
+        return tournament;
+    }
 }
