@@ -57,4 +57,8 @@ public class LiveGameService {
         }
         return trimmedList;
     }
+
+    public void deleteGame(String gameid) {
+        liveGameRepository.deleteById(gameid);
+    }
 }
