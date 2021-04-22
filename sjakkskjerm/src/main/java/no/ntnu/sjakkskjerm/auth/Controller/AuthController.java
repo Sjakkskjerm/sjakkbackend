@@ -54,7 +54,7 @@ public class AuthController {
         SecurityContextHolder.getContext().setAuthentication(authentication);
         //System.out.println("Auth: " + authentication);
 
-        String jwt = jwtUtils.generateJwtToken(authentication);
+        String access_token = jwtUtils.generateJwtToken(authentication);
         //System.out.println("JWT: " + jwt);
 
         UserDetailsImpl userDetails = (UserDetailsImpl) authentication.getPrincipal();
@@ -64,14 +64,16 @@ public class AuthController {
                 .map(item -> item.getAuthority())
                 .collect(Collectors.toList());
 
-        return ResponseEntity.ok(new JwtResponse(jwt,
-                userDetails.getUserId(),
-                userDetails.getUsername(),
-                userDetails.getEmail(),
-                userDetails.getClub(),
-                roles
+        return ResponseEntity.ok(new JwtResponse(access_token,
+                userDetails.getUserId()
                 ));
     }
+
+    /*,
+                    userDetails.getUsername(),
+                    userDetails.getEmail(),
+                    userDetails.getClub(),
+                    roles*/
 
     @PostMapping("/register")
     public ResponseEntity<?> registerUser(@Valid @RequestBody SignupRequest signupRequest) {

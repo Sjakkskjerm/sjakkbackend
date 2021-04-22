@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Component;
 
+import java.io.UnsupportedEncodingException;
 import java.security.Signature;
 import java.util.Date;
 
@@ -22,8 +23,17 @@ public class JWTUtils {
     public String generateJwtToken(Authentication authentication) {
         UserDetailsImpl authenticationPrincipal = (UserDetailsImpl) authentication.getPrincipal();
 
-        return Jwts.builder().setSubject((authenticationPrincipal.getUsername())).setIssuedAt(new Date())
-                .setExpiration(new Date((new Date()).getTime() + jwtExpirationTime)).signWith(SignatureAlgorithm.HS512, jwtSecret)
+        return Jwts.builder()
+                .setHeaderParam("typ", "JWT")
+                .setSubject((authenticationPrincipal.getUsername()))
+                .setIssuedAt(new Date())
+                .setExpiration(new Date((new Date()).getTime() + jwtExpirationTime))
+                .claim("uid", authenticationPrincipal.getUserId())
+                .claim("username", authenticationPrincipal.getUsername())
+                .claim("club", authenticationPrincipal.getClub())
+                .claim("role", authenticationPrincipal.getAuthorities())
+                .claim("email", authenticationPrincipal.getEmail())
+                .signWith(SignatureAlgorithm.HS512, jwtSecret)
                 .compact();
     }
 
