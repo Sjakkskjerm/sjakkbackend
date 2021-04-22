@@ -1,26 +1,18 @@
 package no.ntnu.sjakkskjerm.auth.security.reqrep;
 
+import java.util.List;
+
 public class JwtResponse {
     private String access_token;
     private String type = "Bearer";
-
     private Long userId;
-    /*
-    private String username;
-    private String email;
-    private String club;
     private List<String> roles;
-*/
-    public JwtResponse(String access_token, Long userId) {
+
+    public JwtResponse(String access_token, Long userId, List<String> roles) {
         this.access_token = access_token;
         this.userId = userId;
+        this.roles = roles;
     }
-    /*
-        , String username, String email, String club, List<String> roles
-        this.username = username;
-        this.email = email;
-        this.club = club;
-        this.roles = roles;*/
 
     public String getAccess_token() {
         return access_token;
@@ -45,30 +37,6 @@ public class JwtResponse {
     public void setUserId(Long userId) {
         this.userId = userId;
     }
-/*
-    public String getUsername() {
-        return username;
-    }
-
-    public void setUsername(String username) {
-        this.username = username;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    public String getClub() {
-        return club;
-    }
-
-    public void setClub(String club) {
-        this.club = club;
-    }
 
     public List<String> getRoles() {
         return roles;
@@ -76,5 +44,5 @@ public class JwtResponse {
 
     public void setRoles(List<String> roles) {
         this.roles = roles;
-    }*/
+    }
 }

@@ -13,6 +13,7 @@ import no.ntnu.sjakkskjerm.auth.security.reqrep.SignupRequest;
 import no.ntnu.sjakkskjerm.auth.security.services.UserDetailsImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -52,28 +53,18 @@ public class AuthController {
                 new UsernamePasswordAuthenticationToken(loginRequest.getUsername(), loginRequest.getPassword()));
 
         SecurityContextHolder.getContext().setAuthentication(authentication);
-        //System.out.println("Auth: " + authentication);
-
         String access_token = jwtUtils.generateJwtToken(authentication);
-        //System.out.println("JWT: " + jwt);
-
         UserDetailsImpl userDetails = (UserDetailsImpl) authentication.getPrincipal();
-        //System.out.println("UD: " + userDetails.getAuthorities());
 
         List<String> roles = userDetails.getAuthorities().stream()
                 .map(item -> item.getAuthority())
                 .collect(Collectors.toList());
 
         return ResponseEntity.ok(new JwtResponse(access_token,
-                userDetails.getUserId()
+                userDetails.getUserId(),
+                roles
                 ));
     }
-
-    /*,
-                    userDetails.getUsername(),
-                    userDetails.getEmail(),
-                    userDetails.getClub(),
-                    roles*/
 
     @PostMapping("/register")
     public ResponseEntity<?> registerUser(@Valid @RequestBody SignupRequest signupRequest) {
@@ -124,5 +115,11 @@ public class AuthController {
 
         return ResponseEntity.ok(new MessageResponse("Registered successfull"));
 
+    }
+
+    @GetMapping("/getUserDetails")
+    public List<User> getUserDetails(@RequestParam Long userId) {
+        System.out.println(userId);
+        return userRepository.findByUserId(userId);
     }
 }
