@@ -2,6 +2,7 @@ package no.ntnu.sjakkskjerm.message;
 
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -26,6 +27,7 @@ public class MessageController {
 
     @PostMapping
     @CrossOrigin(origins =  "*", allowedHeaders = "*")
+    @PreAuthorize("hasAuthority('ROLE_ORGANIZER')")
     public void sendMessage(@RequestBody Message message) {
         messageService.sendMessage(message);
     }

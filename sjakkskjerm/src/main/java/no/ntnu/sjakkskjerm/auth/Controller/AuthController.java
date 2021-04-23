@@ -118,6 +118,7 @@ public class AuthController {
     }
 
     @GetMapping("/getUserDetails")
+    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
     public List<User> getUserDetails(@RequestParam Long userId) {
         System.out.println(userId);
         return userRepository.findByUserId(userId);

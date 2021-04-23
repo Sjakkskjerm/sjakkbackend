@@ -1,5 +1,7 @@
 package no.ntnu.sjakkskjerm.auth.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
@@ -23,6 +25,7 @@ public class User {
 
     @NotBlank
     @Size(max = 75)
+    @JsonIgnore
     private String password;
 
     @NotBlank
@@ -32,7 +35,7 @@ public class User {
     @NotBlank
     private String club;
 
-    @ManyToMany(fetch = FetchType.LAZY)
+    @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "user_role", joinColumns = @JoinColumn(name = "user_userId"), inverseJoinColumns = @JoinColumn(name = "role_roleId"))
     private Set<Role> roleSet = new HashSet<>();
 
