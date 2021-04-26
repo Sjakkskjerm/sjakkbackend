@@ -1,5 +1,8 @@
 package no.ntnu.sjakkskjerm.tournament;
 
+import no.ntnu.sjakkskjerm.auth.models.Role;
+import no.ntnu.sjakkskjerm.auth.models.RoleEnum;
+import no.ntnu.sjakkskjerm.auth.repositories.RoleRepository;
 import no.ntnu.sjakkskjerm.livegame.LiveGame;
 import no.ntnu.sjakkskjerm.livegame.LiveGameService;
 import no.ntnu.sjakkskjerm.livegame.pgn.PGN;
@@ -195,6 +198,15 @@ public class TournamentConfig {
     }
 
     @Bean
+    CommandLineRunner addRoles(RoleRepository repository) {
+        return args -> {
+          repository.save(new Role(RoleEnum.ROLE_USER));
+          repository.save(new Role(RoleEnum.ROLE_ORGANIZER));
+          repository.save(new Role(RoleEnum.ROLE_ADMIN));
+        };
+    }
+
+    @Bean
     CommandLineRunner addPGNToGame(LiveGameService service) {
         return args -> {
             ArrayList<String> pgnStepOne = new ArrayList<>(List.of(
@@ -368,9 +380,9 @@ public class TournamentConfig {
                     pgnStepNine,
                     pgnStepTen
             ));
-            long timeBetweenSteps = 10000L;
+            long timeBetweenSteps = 2000L;
             long nextStepTime = System.currentTimeMillis() + timeBetweenSteps;
-            long maxRunTime = System.currentTimeMillis() + 300000L; //1800000 milliseconds = 30 minutes
+            long maxRunTime = System.currentTimeMillis() + 1000000000L; //1800000 milliseconds = 30 minutes
             boolean finished = false;
             int step = 0;
             int maxSteps = pgnSteps.size() - 1;
@@ -384,9 +396,9 @@ public class TournamentConfig {
                 if (step == maxSteps) {
                     step = 0;
                 }
-                if (System.currentTimeMillis() >= maxRunTime) {
-                    finished = true;
-                }
+//                if (System.currentTimeMillis() >= maxRunTime) {
+//                    finished = true;
+//                }
             }
         };
     }

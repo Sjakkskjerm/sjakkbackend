@@ -27,7 +27,7 @@ public class MessageController {
 
     @PostMapping
     @CrossOrigin(origins =  "*", allowedHeaders = "*")
-    @PreAuthorize("hasAuthority('ROLE_ORGANIZER')")
+    @PreAuthorize("hasAuthority('ROLE_USER')")
     public void sendMessage(@RequestBody Message message) {
         messageService.sendMessage(message);
     }
