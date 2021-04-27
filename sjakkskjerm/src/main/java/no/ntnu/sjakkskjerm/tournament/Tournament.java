@@ -1,5 +1,6 @@
 package no.ntnu.sjakkskjerm.tournament;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import no.ntnu.sjakkskjerm.livegame.LiveGame;
 
 import javax.persistence.CascadeType;
@@ -30,6 +31,7 @@ public class Tournament {
     private Long owner;
 
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, mappedBy = "tournament")
+    @JsonIgnore
     private List<LiveGame> games;
 
     public Tournament() { }
