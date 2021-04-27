@@ -32,9 +32,15 @@ public class TournamentController {
         return tournamentService.getAllTournaments();
     }
 
-    /*
-     * Method that adds a tournament to the tournament list
-     */
+    @GetMapping("/tournament")
+    public Tournament getTournament(@RequestParam(name = "tournamentid") Long tournamentId) {
+        Tournament tournament = tournamentService.getTournament(tournamentId);
+        if (tournament == null) {
+            throw new TournamentNotFoundException(tournamentId);
+        }
+        return tournamentService.getTournament(tournamentId);
+    }
+
     @PostMapping(path = "/createtournament")
     @CrossOrigin("*")
     public void addTournament(@RequestBody Tournament tournament) {
@@ -45,6 +51,7 @@ public class TournamentController {
 
     @PostMapping("/addgame")
     @ResponseBody
+
     public ResponseEntity<String> addGameToTournament(@RequestParam(name = "tournamentid") Long tournamentId, @RequestParam(name = "gameid") String gameId) {
         String newid = this.tournamentService.addGameToTournament(tournamentId, gameId);
         if (newid == null) {

@@ -23,7 +23,8 @@ public class TournamentService {
     }
 
     public Tournament getTournament(Long id) {
-        return tournamentRepository.getOne(id);
+        Optional<Tournament> tournament= tournamentRepository.findById(id);
+        return tournament.orElse(null);
     }
 
     public void addTournament(Tournament tournament) {
