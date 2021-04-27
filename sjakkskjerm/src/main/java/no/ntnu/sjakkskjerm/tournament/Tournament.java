@@ -1,15 +1,9 @@
 package no.ntnu.sjakkskjerm.tournament;
 
+import no.ntnu.sjakkskjerm.auth.models.User;
 import no.ntnu.sjakkskjerm.livegame.LiveGame;
 
-import javax.persistence.CascadeType;
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.OneToMany;
-import javax.persistence.SequenceGenerator;
+import javax.persistence.*;
 import java.time.LocalDate;
 import java.util.List;
 
@@ -27,7 +21,10 @@ public class Tournament {
     private int gamesPerRound;
     private String tournamentOrganizer;
     private String tournamentName;
-    private Long owner;
+
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "owner_id", nullable = false)
+    private User owner;
 
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, mappedBy = "tournament")
     private List<LiveGame> games;
@@ -42,7 +39,6 @@ public class Tournament {
         this.gamesPerRound = gamesPerRound;
         this.tournamentOrganizer = tournamentOrganizer;
         this.tournamentName = tournamentName;
-        this.owner = owner;
         this.games = games;
     }
 
@@ -96,20 +92,20 @@ public class Tournament {
 
     public void setTournamentName(String tournamentName) { this.tournamentName = tournamentName; }
 
-    public Long getOwner() {
-        return owner;
-    }
-
-    public void setOwner(Long owner) {
-        this.owner = owner;
-    }
-
     public List<LiveGame> getGames() {
         return games;
     }
 
     public void setGames(List<LiveGame> games) {
         this.games = games;
+    }
+
+    public User getOwner() {
+        return owner;
+    }
+
+    public void setOwner(User owner) {
+        this.owner = owner;
     }
 
     @Override
