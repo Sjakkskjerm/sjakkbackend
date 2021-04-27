@@ -13,10 +13,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 import static java.time.Month.*;
 
@@ -24,7 +21,26 @@ import static java.time.Month.*;
 public class TournamentConfig {
 
     @Bean
-    CommandLineRunner addTournamentsToDatabase(TournamentRepository repository) {
+    CommandLineRunner addRolesAndOrganizer(RoleRepository rolerepository, UserRepository userRepository, PasswordEncoder encoder) {
+        return args -> {
+            Role userRole = new Role(RoleEnum.ROLE_USER);
+            Role organizerRole = new Role(RoleEnum.ROLE_ORGANIZER);
+            Role adminRole = new Role(RoleEnum.ROLE_ADMIN);
+            rolerepository.save(userRole);
+            rolerepository.save(organizerRole);
+            rolerepository.save(adminRole);
+
+            User organizerUser = new User("organizer", encoder.encode("organizer123"), "organizer@organizer.com", "organizer");
+            Set<Role> organizerRoles = new HashSet<>();
+            organizerRoles.add(userRole);
+            organizerRoles.add(organizerRole);
+            organizerUser.setRoleSet(organizerRoles);
+            userRepository.save(organizerUser);
+        };
+    }
+
+    @Bean
+    CommandLineRunner addTournamentsToDatabase(TournamentRepository repository, UserRepository userRepository) {
         return args -> {
 
             ArrayList<String> pgnExampleOne = new ArrayList<>(List.of(
@@ -187,6 +203,13 @@ public class TournamentConfig {
             tournamentThree.setTournamentOrganizer("Julenissen");
             tournamentThree.setTournamentName("New Year 2021  North Pole Chess Open");
 
+            Optional<User> possibleOwner = userRepository.findByUsername("organizer");
+            User owner = possibleOwner.get();
+
+            tournamentOne.setOwner(owner);
+            tournamentTwo.setOwner(owner);
+            tournamentThree.setOwner(owner);
+
             repository.saveAll(
                     List.of(tournamentOne, tournamentTwo, tournamentThree)
             );
@@ -198,25 +221,6 @@ public class TournamentConfig {
         return args -> {
             Tournament tournament = repository.getOne(3L);
             service.addGameToTournament(tournament.getId(), "01");
-        };
-    }
-
-    @Bean
-    CommandLineRunner addRolesAndOrganizer(RoleRepository rolerepository, UserRepository userRepository, PasswordEncoder encoder) {
-        return args -> {
-            Role userRole = new Role(RoleEnum.ROLE_USER);
-            Role organizerRole = new Role(RoleEnum.ROLE_ORGANIZER);
-            Role adminRole = new Role(RoleEnum.ROLE_ADMIN);
-            rolerepository.save(userRole);
-            rolerepository.save(organizerRole);
-            rolerepository.save(adminRole);
-
-            User organizerUser = new User("organizer", encoder.encode("organizer123"), "organizer@organizer.com", "organizer");
-            Set<Role> organizerRoles = new HashSet<>();
-            organizerRoles.add(userRole);
-            organizerRoles.add(organizerRole);
-            organizerUser.setRoleSet(organizerRoles);
-            userRepository.save(organizerUser);
         };
     }
 }
