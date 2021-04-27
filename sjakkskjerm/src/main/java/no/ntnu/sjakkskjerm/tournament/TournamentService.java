@@ -1,5 +1,7 @@
 package no.ntnu.sjakkskjerm.tournament;
 
+import no.ntnu.sjakkskjerm.auth.models.User;
+import no.ntnu.sjakkskjerm.auth.repositories.UserRepository;
 import no.ntnu.sjakkskjerm.livegame.LiveGame;
 import no.ntnu.sjakkskjerm.livegame.LiveGameRepository;
 import org.springframework.stereotype.Repository;
@@ -10,10 +12,12 @@ import java.util.Optional;
 @Repository
 public class TournamentService {
 
+    private final UserRepository userRepository;
     private final TournamentRepository tournamentRepository;
     private final LiveGameRepository liveGameRepository;
 
-    public TournamentService(TournamentRepository tournamentRepository, LiveGameRepository liveGameRepository) {
+    public TournamentService(UserRepository userRepository, TournamentRepository tournamentRepository, LiveGameRepository liveGameRepository) {
+        this.userRepository = userRepository;
         this.tournamentRepository = tournamentRepository;
         this.liveGameRepository = liveGameRepository;
     }
@@ -26,8 +30,13 @@ public class TournamentService {
         return tournamentRepository.getOne(id);
     }
 
-    public void addTournament(Tournament tournament) {
-        tournamentRepository.save(tournament);
+    public void addTournament(Tournament tournament, Long userId) {
+        Optional<User> userWrapper = userRepository.findById(userId);
+        User user = userWrapper.get();
+        if (user != null) {
+            tournament.setOwner(user);
+            tournamentRepository.save(tournament);
+        }
     }
 
     public String addGameToTournament(Long tournamentId, String gameId) {
