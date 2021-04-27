@@ -2,16 +2,21 @@ package no.ntnu.sjakkskjerm.tournament;
 
 import no.ntnu.sjakkskjerm.auth.models.Role;
 import no.ntnu.sjakkskjerm.auth.models.RoleEnum;
+import no.ntnu.sjakkskjerm.auth.models.User;
 import no.ntnu.sjakkskjerm.auth.repositories.RoleRepository;
+import no.ntnu.sjakkskjerm.auth.repositories.UserRepository;
 import no.ntnu.sjakkskjerm.livegame.LiveGame;
 import no.ntnu.sjakkskjerm.livegame.pgn.PGN;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import static java.time.Month.*;
 
@@ -197,11 +202,21 @@ public class TournamentConfig {
     }
 
     @Bean
-    CommandLineRunner addRoles(RoleRepository repository) {
+    CommandLineRunner addRolesAndOrganizer(RoleRepository rolerepository, UserRepository userRepository, PasswordEncoder encoder) {
         return args -> {
-          repository.save(new Role(RoleEnum.ROLE_USER));
-          repository.save(new Role(RoleEnum.ROLE_ORGANIZER));
-          repository.save(new Role(RoleEnum.ROLE_ADMIN));
+            Role userRole = new Role(RoleEnum.ROLE_USER);
+            Role organizerRole = new Role(RoleEnum.ROLE_ORGANIZER);
+            Role adminRole = new Role(RoleEnum.ROLE_ADMIN);
+            rolerepository.save(userRole);
+            rolerepository.save(organizerRole);
+            rolerepository.save(adminRole);
+
+            User organizerUser = new User("organizer", encoder.encode("organizer123"), "organizer@organizer.com", "organizer");
+            Set<Role> organizerRoles = new HashSet<>();
+            organizerRoles.add(userRole);
+            organizerRoles.add(organizerRole);
+            organizerUser.setRoleSet(organizerRoles);
+            userRepository.save(organizerUser);
         };
     }
 }
