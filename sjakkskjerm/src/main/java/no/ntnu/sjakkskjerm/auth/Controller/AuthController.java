@@ -6,12 +6,11 @@ import no.ntnu.sjakkskjerm.auth.models.User;
 import no.ntnu.sjakkskjerm.auth.repositories.RoleRepository;
 import no.ntnu.sjakkskjerm.auth.repositories.UserRepository;
 import no.ntnu.sjakkskjerm.auth.security.jwt.JWTUtils;
-import no.ntnu.sjakkskjerm.auth.security.reqrep.JwtResponse;
-import no.ntnu.sjakkskjerm.auth.security.reqrep.LoginRequest;
-import no.ntnu.sjakkskjerm.auth.security.reqrep.MessageResponse;
-import no.ntnu.sjakkskjerm.auth.security.reqrep.SignupRequest;
+import no.ntnu.sjakkskjerm.auth.security.reqrep.*;
 import no.ntnu.sjakkskjerm.auth.security.services.UserDetailsImpl;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.jpa.repository.Modifying;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -19,9 +18,11 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
+import javax.persistence.EntityManager;
 import javax.validation.Valid;
 import java.util.HashSet;
 import java.util.List;
@@ -122,5 +123,13 @@ public class AuthController {
     public List<User> getUserDetails(@RequestParam Long userId) {
         System.out.println(userId);
         return userRepository.findByUserId(userId);
+    }
+
+    @PutMapping("/updateRole")
+    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
+    public ResponseEntity<?> updateRole(@RequestParam int roleId, @RequestParam int userId) {
+        userRepository.changeRole(roleId, userId);
+        System.out.println("Rolle Endret");
+        return ResponseEntity.ok(new MessageResponse("ok"));
     }
 }
