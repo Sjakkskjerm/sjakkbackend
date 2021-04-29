@@ -10,6 +10,7 @@ import java.util.Optional;
 
 @RestController
 @RequestMapping(path = "api/message")
+@CrossOrigin(origins="*", maxAge = 3600, allowedHeaders = "*")
 public class MessageController {
 
     private final MessageService messageService;
@@ -38,6 +39,13 @@ public class MessageController {
     public List<Message> getMessageTournament(@RequestParam Long tournamentId) {
         System.out.println(tournamentId);
         return messageService.getMessageTournament(tournamentId);
+    }
+
+    @DeleteMapping("/delete")
+    @PreAuthorize("hasAuthority('ROLE_ORGANIZER')")
+    public void deleteMessage(@RequestParam Long messageId) {
+        messageService.deleteMessage(messageId);
+        System.out.println(messageId);
     }
 
 }

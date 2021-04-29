@@ -26,6 +26,10 @@ public class MessageService {
         messageRepository.save(message);
     }
 
+    public void deleteMessage(Long messageId) {
+        messageRepository.deleteById(messageId);
+    }
+
     public List<Message> getMessageTournament(Long tournamentId) {
 
         List<Message> originalList = messageRepository.findAll();
