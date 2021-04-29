@@ -32,10 +32,15 @@ public class TournamentConfig {
 
             User organizerUser = new User("organizer", encoder.encode("organizer123"), "organizer@organizer.com", "organizer");
             Set<Role> organizerRoles = new HashSet<>();
-            organizerRoles.add(userRole);
             organizerRoles.add(organizerRole);
             organizerUser.setRoleSet(organizerRoles);
             userRepository.save(organizerUser);
+
+            User anotherOrganizer = new User("organizerTwo", encoder.encode("organizerTwo"), "organizerTwo@organizer.com","organizer");
+            Set<Role> anotherOrganizerRoles = new HashSet<>();
+            anotherOrganizerRoles.add(organizerRole);
+            anotherOrganizer.setRoleSet(anotherOrganizerRoles);
+            userRepository.save(anotherOrganizer);
         };
     }
 
