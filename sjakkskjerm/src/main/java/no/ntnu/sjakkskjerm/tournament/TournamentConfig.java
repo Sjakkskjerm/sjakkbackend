@@ -208,16 +208,22 @@ public class TournamentConfig {
             tournamentThree.setTournamentOrganizer("Julenissen");
             tournamentThree.setTournamentName("New Year 2021  North Pole Chess Open");
 
+            Tournament tournamentYouCanDelete = new Tournament();
+            tournamentYouCanDelete.setStartDate(LocalDate.of(2021, DECEMBER, 25));
+            tournamentYouCanDelete.setEndDate(LocalDate.of(2022, JANUARY, 5));
+            tournamentYouCanDelete.setTournamentOrganizer("Martin");
+            tournamentYouCanDelete.setTournamentName("Delete Me Tournament");
+
             Optional<User> possibleOwner = userRepository.findByUsername("organizer");
-            User owner = possibleOwner.get();
-
-            tournamentOne.setOwner(owner);
-            tournamentTwo.setOwner(owner);
-            tournamentThree.setOwner(owner);
-
-            repository.saveAll(
-                    List.of(tournamentOne, tournamentTwo, tournamentThree)
-            );
+            if (possibleOwner.isPresent()) {
+                User owner = possibleOwner.get();
+                tournamentOne.setOwner(owner);
+                tournamentTwo.setOwner(owner);
+                tournamentThree.setOwner(owner);
+                tournamentYouCanDelete.setOwner(owner);
+                repository.saveAll(
+                        List.of(tournamentOne, tournamentTwo, tournamentThree, tournamentYouCanDelete));
+            }
         };
     }
 

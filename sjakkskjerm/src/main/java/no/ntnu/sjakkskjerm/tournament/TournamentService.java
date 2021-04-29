@@ -32,12 +32,16 @@ public class TournamentService {
     }
 
     public void addTournament(Tournament tournament, Long userId) {
-        Optional<User> userWrapper = userRepository.findById(userId);
-        User user = userWrapper.get();
-        if (user != null) {
-            tournament.setOwner(user);
+        Optional<User> userOptional = userRepository.findById(userId);
+        if (userOptional.isPresent()) {
+            tournament.setOwner(userOptional.get());
             tournamentRepository.save(tournament);
         }
+    }
+
+    public void deleteTournament(Long id) {
+        Optional<Tournament> tournamentOptional = tournamentRepository.findById(id);
+        tournamentOptional.ifPresent(tournamentRepository::delete);
     }
 
     public String addGameToTournament(Long tournamentId, String gameId) {
@@ -57,14 +61,6 @@ public class TournamentService {
         tournament.setGames(games);
         tournamentRepository.save(tournament);
         return liveGame.getId();
-    }
-
-    private String validGameId(String gameId) {
-        System.out.println(gameId);
-        if (gameId.length() > 1) {
-            return  gameId;
-        }
-        return "0"+gameId;
     }
 
     public Tournament setGamesPerRound(long tournamentId, int numberOfGames) {
@@ -87,5 +83,13 @@ public class TournamentService {
         tournament.setNumberOfRounds(numberOfRounds);
         tournamentRepository.save(tournament);
         return tournament;
+    }
+
+    private String validGameId(String gameId) {
+        System.out.println(gameId);
+        if (gameId.length() > 1) {
+            return  gameId;
+        }
+        return "0"+gameId;
     }
 }

@@ -1,5 +1,6 @@
 package no.ntnu.sjakkskjerm.tournament;
 
+import no.ntnu.sjakkskjerm.auth.exceptions.NotAuthorizedException;
 import no.ntnu.sjakkskjerm.auth.security.services.UserDetailsImpl;
 import no.ntnu.sjakkskjerm.tournament.exceptions.AddGameException;
 import no.ntnu.sjakkskjerm.tournament.exceptions.TournamentNotFoundException;
@@ -8,6 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -46,19 +48,28 @@ public class TournamentController {
 
     @PostMapping(path = "/createtournament")
     @PreAuthorize("hasAuthority('ROLE_ORGANIZER')")
-    @CrossOrigin("*")
     public void addTournament(@RequestBody Tournament tournament) {
         UserDetailsImpl userDetails = (UserDetailsImpl) SecurityContextHolder.getContext().getAuthentication()
                 .getPrincipal();
         Long userId = userDetails.getUserId();
-        System.out.println(userId);
         tournamentService.addTournament(tournament, userId);
-        System.out.println(tournament.toString());
+    }
+
+    @DeleteMapping("/delete/")
+    @PreAuthorize("hasAuthority('ROLE_ORGANIZER')")
+    public void deleteTournament(@RequestParam(name = "tournamentid") Long tournamentId) {
+        UserDetailsImpl userDetails = (UserDetailsImpl) SecurityContextHolder.getContext().getAuthentication()
+                .getPrincipal();
+        Long userId = userDetails.getUserId();
+        Tournament tournament = tournamentService.getTournament(tournamentId);
+        if (!tournament.getOwner().getUserId().equals(userId)) {
+            throw new NotAuthorizedException();
+        }
+        tournamentService.deleteTournament(tournament.getId());
     }
 
     @PostMapping("/addgame")
     @ResponseBody
-
     public ResponseEntity<String> addGameToTournament(@RequestParam(name = "tournamentid") Long tournamentId, @RequestParam(name = "gameid") String gameId) {
         String newid = this.tournamentService.addGameToTournament(tournamentId, gameId);
         if (newid == null) {
