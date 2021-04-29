@@ -7,6 +7,8 @@ import no.ntnu.sjakkskjerm.auth.repositories.RoleRepository;
 import no.ntnu.sjakkskjerm.auth.repositories.UserRepository;
 import no.ntnu.sjakkskjerm.livegame.LiveGame;
 import no.ntnu.sjakkskjerm.livegame.pgn.PGN;
+import no.ntnu.sjakkskjerm.message.Message;
+import no.ntnu.sjakkskjerm.message.MessageRepository;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -223,6 +225,43 @@ public class TournamentConfig {
                 tournamentYouCanDelete.setOwner(owner);
                 repository.saveAll(
                         List.of(tournamentOne, tournamentTwo, tournamentThree, tournamentYouCanDelete));
+            }
+        };
+    }
+    @Bean
+    CommandLineRunner addMessagesToTournaments(MessageRepository repository, TournamentRepository tournamentRepository) {
+        return args -> {
+            Optional<Tournament> tournamentOneOptional = tournamentRepository.findById(1L);
+            Optional<Tournament> tournamentTwoOptional = tournamentRepository.findById(2L);
+            Optional<Tournament> tournamentThreeOptional = tournamentRepository.findById(3L);
+
+            Message mtest = new Message();
+            Message mtest2 = new Message();
+            Message mtest3 = new Message();
+
+            if(tournamentOneOptional.isPresent()) {
+                mtest.setTournament(tournamentOneOptional.get());
+                mtest.setDate(LocalDate.of(2000, JANUARY,5));
+                mtest.setImportance("Viktig");
+                mtest.setMessage("Hei");
+                tournamentOneOptional.get().getMessages().add(mtest);
+                repository.save(mtest);
+            }
+            if(tournamentTwoOptional.isPresent()) {
+                mtest2.setTournament(tournamentTwoOptional.get());
+                mtest2.setDate(LocalDate.of(2001, JANUARY,5));
+                mtest2.setImportance("Viktig");
+                mtest2.setMessage("Hei Hei");
+                tournamentTwoOptional.get().getMessages().add(mtest2);
+                repository.save(mtest2);
+            }
+            if(tournamentThreeOptional.isPresent()) {
+                mtest3.setTournament(tournamentThreeOptional.get());
+                mtest3.setDate(LocalDate.of(2002, JANUARY,5));
+                mtest3.setImportance("Viktig");
+                mtest3.setMessage("Hei Hei Hei");
+                tournamentThreeOptional.get().getMessages().add(mtest3);
+                repository.save(mtest3);
             }
         };
     }

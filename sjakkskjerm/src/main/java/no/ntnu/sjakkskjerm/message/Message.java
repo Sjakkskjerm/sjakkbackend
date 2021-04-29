@@ -1,5 +1,8 @@
 package no.ntnu.sjakkskjerm.message;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import no.ntnu.sjakkskjerm.tournament.Tournament;
+
 import javax.persistence.*;
 import java.time.LocalDate;
 
@@ -12,7 +15,10 @@ public class Message {
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "melding_sequence")
     private Long messageId;
 
-    private Long tournamentId;
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "tournament_id", nullable = false)
+    @JsonIgnore
+    private Tournament tournament;
     private LocalDate date;
     private String importance;
     private String message;
@@ -20,8 +26,8 @@ public class Message {
     public Message() {
     }
 
-    public Message(Long tournamentId, LocalDate date, String importance, String message) {
-        this.tournamentId = tournamentId;
+    public Message(Tournament tournament, LocalDate date, String importance, String message) {
+        this.tournament = tournament;
         this.date = date;
         this.importance = importance;
         this.message = message;
@@ -35,12 +41,12 @@ public class Message {
         this.messageId = messageId;
     }
 
-    public Long getTournamentId() {
-        return tournamentId;
+    public Tournament getTournament() {
+        return this.tournament;
     }
 
-    public void setTournamentId(Long tournamentId) {
-        this.tournamentId = tournamentId;
+    public void setTournament(Tournament tournament) {
+        this.tournament = tournament;
     }
 
     public LocalDate getDate() {
@@ -71,7 +77,6 @@ public class Message {
     public String toString() {
         return "Message{" +
                 "messageId=" + messageId +
-                ", tournamentId=" + tournamentId +
                 ", date=" + date +
                 ", importance='" + importance + '\'' +
                 ", Message='" + message + '\'' +
