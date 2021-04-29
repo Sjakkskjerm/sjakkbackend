@@ -1,9 +1,12 @@
 package no.ntnu.sjakkskjerm.tournament;
 
+import no.ntnu.sjakkskjerm.auth.security.services.UserDetailsImpl;
 import no.ntnu.sjakkskjerm.tournament.exceptions.AddGameException;
 import no.ntnu.sjakkskjerm.tournament.exceptions.TournamentNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -42,12 +45,16 @@ public class TournamentController {
     }
 
     @PostMapping(path = "/createtournament")
+    @PreAuthorize("hasAuthority('ROLE_ORGANIZER')")
     @CrossOrigin("*")
     public void addTournament(@RequestBody Tournament tournament) {
-        tournamentService.addTournament(tournament);
+        UserDetailsImpl userDetails = (UserDetailsImpl) SecurityContextHolder.getContext().getAuthentication()
+                .getPrincipal();
+        Long userId = userDetails.getUserId();
+        System.out.println(userId);
+        tournamentService.addTournament(tournament, userId);
         System.out.println(tournament.toString());
     }
-    
 
     @PostMapping("/addgame")
     @ResponseBody
