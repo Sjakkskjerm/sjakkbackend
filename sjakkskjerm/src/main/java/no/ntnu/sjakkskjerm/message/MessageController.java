@@ -34,7 +34,7 @@ public class MessageController {
     @PostMapping
     @CrossOrigin(origins =  "*", allowedHeaders = "*")
     @PreAuthorize("hasAuthority('ROLE_ORGANIZER')")
-    public void sendMessage(@RequestBody Message message) {
+    public void sendMessage(@RequestBody MessageRequest message) {
         UserDetailsImpl userDetails = (UserDetailsImpl) SecurityContextHolder.getContext().getAuthentication()
                 .getPrincipal();
         Long userId = userDetails.getUserId();
@@ -42,7 +42,7 @@ public class MessageController {
         if (!tournament.getOwner().getUserId().equals(userId)) {
             throw new NotAuthorizedException();
         }
-        messageService.sendMessage(message);
+        messageService.sendMessage(message, tournament);
     }
 
     @GetMapping
