@@ -1,22 +1,28 @@
 package no.ntnu.sjakkskjerm.message;
 
 
+import no.ntnu.sjakkskjerm.auth.exceptions.NotAuthorizedException;
+import no.ntnu.sjakkskjerm.auth.security.services.UserDetailsImpl;
+import no.ntnu.sjakkskjerm.tournament.Tournament;
+import no.ntnu.sjakkskjerm.tournament.TournamentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Optional;
 
 @RestController
 @RequestMapping(path = "api/message")
 public class MessageController {
 
     private final MessageService messageService;
+    private final TournamentService tournamentService;
 
     @Autowired
-    public MessageController(MessageService messageService) {
+    public MessageController(MessageService messageService, TournamentService tournamentService) {
         this.messageService = messageService;
+        this.tournamentService = tournamentService;
     }
 
     @GetMapping
@@ -27,8 +33,15 @@ public class MessageController {
 
     @PostMapping
     @CrossOrigin(origins =  "*", allowedHeaders = "*")
-    @PreAuthorize("hasAuthority('ROLE_USER')")
+    @PreAuthorize("hasAuthority('ROLE_ORGANIZER')")
     public void sendMessage(@RequestBody Message message) {
+        UserDetailsImpl userDetails = (UserDetailsImpl) SecurityContextHolder.getContext().getAuthentication()
+                .getPrincipal();
+        Long userId = userDetails.getUserId();
+        Tournament tournament = tournamentService.getTournament(message.getTournamentId());
+        if (!tournament.getOwner().getUserId().equals(userId)) {
+            throw new NotAuthorizedException();
+        }
         messageService.sendMessage(message);
     }
 
@@ -36,7 +49,6 @@ public class MessageController {
     @CrossOrigin(origins = "*", allowedHeaders = "*")
     @RequestMapping(path = "/specific")
     public List<Message> getMessageTournament(@RequestParam Long tournamentId) {
-        System.out.println(tournamentId);
         return messageService.getMessageTournament(tournamentId);
     }
 
