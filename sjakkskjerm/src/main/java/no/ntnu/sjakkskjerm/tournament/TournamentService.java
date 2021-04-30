@@ -8,6 +8,7 @@ import org.springframework.stereotype.Repository;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Repository
 public class TournamentService {
@@ -27,16 +28,21 @@ public class TournamentService {
     }
 
     public Tournament getTournament(Long id) {
-        return tournamentRepository.getOne(id);
+        Optional<Tournament> tournament= tournamentRepository.findById(id);
+        return tournament.orElse(null);
     }
 
     public void addTournament(Tournament tournament, Long userId) {
-        Optional<User> userWrapper = userRepository.findById(userId);
-        User user = userWrapper.get();
-        if (user != null) {
-            tournament.setOwner(user);
+        Optional<User> userOptional = userRepository.findById(userId);
+        if (userOptional.isPresent()) {
+            tournament.setOwner(userOptional.get());
             tournamentRepository.save(tournament);
         }
+    }
+
+    public void deleteTournament(Long id) {
+        Optional<Tournament> tournamentOptional = tournamentRepository.findById(id);
+        tournamentOptional.ifPresent(tournamentRepository::delete);
     }
 
     public String addGameToTournament(Long tournamentId, String gameId) {
@@ -56,14 +62,6 @@ public class TournamentService {
         tournament.setGames(games);
         tournamentRepository.save(tournament);
         return liveGame.getId();
-    }
-
-    private String validGameId(String gameId) {
-        System.out.println(gameId);
-        if (gameId.length() > 1) {
-            return  gameId;
-        }
-        return "0"+gameId;
     }
 
     public Tournament setGamesPerRound(long tournamentId, int numberOfGames) {
@@ -86,5 +84,20 @@ public class TournamentService {
         tournament.setNumberOfRounds(numberOfRounds);
         tournamentRepository.save(tournament);
         return tournament;
+    }
+
+    private String validGameId(String gameId) {
+        System.out.println(gameId);
+        if (gameId.length() > 1) {
+            return  gameId;
+        }
+        return "0"+gameId;
+    }
+
+    public List<Tournament> getTournamentsById(Long ownerId) {
+        return tournamentRepository.findAll()
+                .stream()
+                .filter(tournament -> tournament.getOwner().getUserId().equals(ownerId))
+                .collect(Collectors.toList());
     }
 }

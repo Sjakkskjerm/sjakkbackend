@@ -1,11 +1,14 @@
 package no.ntnu.sjakkskjerm.tournament;
 
 import no.ntnu.sjakkskjerm.auth.models.User;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import no.ntnu.sjakkskjerm.livegame.LiveGame;
+import no.ntnu.sjakkskjerm.message.Message;
 
 import javax.persistence.*;
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Set;
 
 
 @Entity
@@ -27,7 +30,12 @@ public class Tournament {
     private User owner;
 
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, mappedBy = "tournament")
+    @JsonIgnore
     private List<LiveGame> games;
+
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, mappedBy = "tournament")
+    @JsonIgnore
+    private Set<Message> messages;
 
     public Tournament() { }
 
@@ -98,6 +106,14 @@ public class Tournament {
 
     public void setGames(List<LiveGame> games) {
         this.games = games;
+    }
+
+    public Set<Message> getMessages() {
+        return messages;
+    }
+
+    public void setMessages(Set<Message> messages) {
+        this.messages = messages;
     }
 
     public User getOwner() {

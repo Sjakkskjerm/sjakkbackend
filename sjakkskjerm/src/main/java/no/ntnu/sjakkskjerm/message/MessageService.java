@@ -1,5 +1,6 @@
 package no.ntnu.sjakkskjerm.message;
 
+import no.ntnu.sjakkskjerm.tournament.Tournament;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -21,23 +22,23 @@ public class MessageService {
         return messageRepository.findAll();
     }
 
-    public void sendMessage(Message message) {
-        message.setDate(LocalDate.now());
-        messageRepository.save(message);
+    public void sendMessage(MessageRequest message, Tournament tournament) {
+        Message messageEntity = new Message();
+        messageEntity.setTournament(tournament);
+        messageEntity.setDate(LocalDate.now());
+        messageEntity.setMessage(message.getMessage());
+        messageEntity.setImportance(message.getImportance());
+        messageRepository.save(messageEntity);
+    }
+
+    public void deleteMessage(Long messageId) {
+        messageRepository.deleteById(messageId);
     }
 
     public List<Message> getMessageTournament(Long tournamentId) {
-
-        List<Message> originalList = messageRepository.findAll();
-
-       List<Message> filteredList =
-                originalList
-                    .stream()
-                    .filter(c -> tournamentId.equals(c.getTournamentId()))
-                    .collect(Collectors.toList());
-
-        filteredList.forEach(System.out::println);
-
-       return filteredList;
+       return messageRepository.findAll()
+               .stream()
+               .filter(c -> tournamentId.equals(c.getTournament().getId()))
+               .collect(Collectors.toList());
     }
 }
