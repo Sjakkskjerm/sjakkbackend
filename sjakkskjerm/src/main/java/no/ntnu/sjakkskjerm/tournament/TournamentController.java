@@ -53,11 +53,11 @@ public class TournamentController {
 
     @PostMapping(path = "/createtournament")
     @PreAuthorize("hasAuthority('ROLE_ORGANIZER')")
-    public void addTournament(@RequestBody Tournament tournament) {
+    public Tournament addTournament(@RequestBody Tournament tournament) {
         UserDetailsImpl userDetails = (UserDetailsImpl) SecurityContextHolder.getContext().getAuthentication()
                 .getPrincipal();
         Long userId = userDetails.getUserId();
-        tournamentService.addTournament(tournament, userId);
+        return tournamentService.addTournament(tournament, userId);
     }
 
     @DeleteMapping("/delete/")
