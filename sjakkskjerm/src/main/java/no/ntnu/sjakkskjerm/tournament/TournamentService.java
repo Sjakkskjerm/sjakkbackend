@@ -32,12 +32,14 @@ public class TournamentService {
         return tournament.orElse(null);
     }
 
-    public void addTournament(Tournament tournament, Long userId) {
+    public Tournament addTournament(Tournament tournament, Long userId) {
         Optional<User> userOptional = userRepository.findById(userId);
         if (userOptional.isPresent()) {
             tournament.setOwner(userOptional.get());
             tournamentRepository.save(tournament);
+            return tournament;
         }
+        return null;
     }
 
     public void deleteTournament(Long id) {
