@@ -46,6 +46,11 @@ public class TournamentController {
         return tournamentService.getTournament(tournamentId);
     }
 
+    @GetMapping("/tournamentsbyowner")
+    public List<Tournament> getTournamentsByOwner(@RequestParam(name = "ownerid") Long ownerId) {
+        return tournamentService.getTournamentsById(ownerId);
+    }
+
     @PostMapping(path = "/createtournament")
     @PreAuthorize("hasAuthority('ROLE_ORGANIZER')")
     public void addTournament(@RequestBody Tournament tournament) {

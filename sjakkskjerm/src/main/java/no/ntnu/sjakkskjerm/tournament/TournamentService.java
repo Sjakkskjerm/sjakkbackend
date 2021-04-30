@@ -8,6 +8,7 @@ import org.springframework.stereotype.Repository;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Repository
 public class TournamentService {
@@ -91,5 +92,12 @@ public class TournamentService {
             return  gameId;
         }
         return "0"+gameId;
+    }
+
+    public List<Tournament> getTournamentsById(Long ownerId) {
+        return tournamentRepository.findAll()
+                .stream()
+                .filter(tournament -> tournament.getOwner().getUserId().equals(ownerId))
+                .collect(Collectors.toList());
     }
 }
