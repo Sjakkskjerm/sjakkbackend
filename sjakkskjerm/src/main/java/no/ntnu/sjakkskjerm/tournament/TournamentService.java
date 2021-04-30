@@ -1,5 +1,7 @@
 package no.ntnu.sjakkskjerm.tournament;
 
+import no.ntnu.sjakkskjerm.auth.models.User;
+import no.ntnu.sjakkskjerm.auth.repositories.UserRepository;
 import no.ntnu.sjakkskjerm.livegame.LiveGame;
 import no.ntnu.sjakkskjerm.livegame.LiveGameRepository;
 import org.springframework.stereotype.Repository;
@@ -10,10 +12,12 @@ import java.util.Optional;
 @Repository
 public class TournamentService {
 
+    private final UserRepository userRepository;
     private final TournamentRepository tournamentRepository;
     private final LiveGameRepository liveGameRepository;
 
-    public TournamentService(TournamentRepository tournamentRepository, LiveGameRepository liveGameRepository) {
+    public TournamentService(UserRepository userRepository, TournamentRepository tournamentRepository, LiveGameRepository liveGameRepository) {
+        this.userRepository = userRepository;
         this.tournamentRepository = tournamentRepository;
         this.liveGameRepository = liveGameRepository;
     }
@@ -23,11 +27,21 @@ public class TournamentService {
     }
 
     public Tournament getTournament(Long id) {
-        return tournamentRepository.getOne(id);
+        Optional<Tournament> tournament= tournamentRepository.findById(id);
+        return tournament.orElse(null);
     }
 
-    public void addTournament(Tournament tournament) {
-        tournamentRepository.save(tournament);
+    public void addTournament(Tournament tournament, Long userId) {
+        Optional<User> userOptional = userRepository.findById(userId);
+        if (userOptional.isPresent()) {
+            tournament.setOwner(userOptional.get());
+            tournamentRepository.save(tournament);
+        }
+    }
+
+    public void deleteTournament(Long id) {
+        Optional<Tournament> tournamentOptional = tournamentRepository.findById(id);
+        tournamentOptional.ifPresent(tournamentRepository::delete);
     }
 
     public String addGameToTournament(Long tournamentId, String gameId) {
@@ -47,14 +61,6 @@ public class TournamentService {
         tournament.setGames(games);
         tournamentRepository.save(tournament);
         return liveGame.getId();
-    }
-
-    private String validGameId(String gameId) {
-        System.out.println(gameId);
-        if (gameId.length() > 1) {
-            return  gameId;
-        }
-        return "0"+gameId;
     }
 
     public Tournament setGamesPerRound(long tournamentId, int numberOfGames) {
@@ -77,5 +83,13 @@ public class TournamentService {
         tournament.setNumberOfRounds(numberOfRounds);
         tournamentRepository.save(tournament);
         return tournament;
+    }
+
+    private String validGameId(String gameId) {
+        System.out.println(gameId);
+        if (gameId.length() > 1) {
+            return  gameId;
+        }
+        return "0"+gameId;
     }
 }
