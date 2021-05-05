@@ -23,7 +23,9 @@ import static java.time.Month.*;
 public class TournamentConfig {
 
     @Bean
-    CommandLineRunner addRolesAndOrganizer(RoleRepository rolerepository, UserRepository userRepository, PasswordEncoder encoder) {
+    CommandLineRunner addRolesAndOrganizer(RoleRepository rolerepository,
+                                           UserRepository userRepository,
+                                           PasswordEncoder encoder) {
         return args -> {
             Role userRole = new Role(RoleEnum.ROLE_USER);
             Role organizerRole = new Role(RoleEnum.ROLE_ORGANIZER);
@@ -32,17 +34,41 @@ public class TournamentConfig {
             rolerepository.save(organizerRole);
             rolerepository.save(adminRole);
 
-            User organizerUser = new User("organizer", encoder.encode("organizer123"), "organizer@organizer.com", "organizer");
+            User organizerUser = new User("organizer",
+                    encoder.encode("organizer123"),
+                    "organizer@organizer.com", "organizer");
             Set<Role> organizerRoles = new HashSet<>();
             organizerRoles.add(organizerRole);
             organizerUser.setRoleSet(organizerRoles);
             userRepository.save(organizerUser);
 
-            User anotherOrganizer = new User("organizerTwo", encoder.encode("organizerTwo"), "organizerTwo@organizer.com","organizer");
+            User anotherOrganizer = new User("organizerTwo",
+                    encoder.encode("organizerTwo"),
+                    "organizerTwo@organizer.com",
+                    "organizer");
             Set<Role> anotherOrganizerRoles = new HashSet<>();
             anotherOrganizerRoles.add(organizerRole);
             anotherOrganizer.setRoleSet(anotherOrganizerRoles);
             userRepository.save(anotherOrganizer);
+        };
+    }
+
+    @Bean
+    CommandLineRunner addAdmin(RoleRepository roleRepository,
+                               UserRepository userRepository,
+                               PasswordEncoder encoder) {
+        return args -> {
+          Optional<Role> adminRole = roleRepository.findByName(RoleEnum.ROLE_ADMIN);
+          if (adminRole.isPresent()) {
+              User admin = new User("admin",
+                      encoder.encode("admin123"),
+                      "admin@admin.com",
+                      "admin");
+              Set<Role> adminRoles = new HashSet<>();
+              adminRoles.add(adminRole.get());
+              admin.setRoleSet(adminRoles);
+              userRepository.save(admin);
+          }
         };
     }
 
