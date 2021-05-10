@@ -269,7 +269,7 @@ public class TournamentConfig {
                 mtest.setTournament(tournamentOneOptional.get());
                 mtest.setDate(LocalDate.of(2000, JANUARY,5));
                 mtest.setImportance("Viktig");
-                mtest.setMessage("Hei");
+                mtest.setMessage("Velkommen til Per Atle Steinars Toten Turnering");
                 tournamentOneOptional.get().getMessages().add(mtest);
                 repository.save(mtest);
             }
@@ -277,15 +277,15 @@ public class TournamentConfig {
                 mtest2.setTournament(tournamentTwoOptional.get());
                 mtest2.setDate(LocalDate.of(2001, JANUARY,5));
                 mtest2.setImportance("Viktig");
-                mtest2.setMessage("Hei Hei");
+                mtest2.setMessage("Velkommen. Kaldt ute i dag.");
                 tournamentTwoOptional.get().getMessages().add(mtest2);
                 repository.save(mtest2);
             }
             if(tournamentThreeOptional.isPresent()) {
                 mtest3.setTournament(tournamentThreeOptional.get());
                 mtest3.setDate(LocalDate.of(2002, JANUARY,5));
-                mtest3.setImportance("Viktig");
-                mtest3.setMessage("Hei Hei Hei");
+                mtest3.setImportance("Ikke Viktig");
+                mtest3.setMessage("Håper vi får startet imorgen kl. 10.00");
                 tournamentThreeOptional.get().getMessages().add(mtest3);
                 repository.save(mtest3);
             }

@@ -60,7 +60,7 @@ public class TournamentController {
         return tournamentService.addTournament(tournament, userId);
     }
 
-    @DeleteMapping("/delete/")
+    @DeleteMapping("/delete")
     @PreAuthorize("hasAuthority('ROLE_ORGANIZER')")
     public void deleteTournament(@RequestParam(name = "tournamentid") Long tournamentId) {
         UserDetailsImpl userDetails = (UserDetailsImpl) SecurityContextHolder.getContext().getAuthentication()
