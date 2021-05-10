@@ -3,7 +3,6 @@ package no.ntnu.sjakkskjerm.auth.security.reqrep;
 import javax.validation.constraints.NotBlank;
 
 public class LoginRequest {
-    //Basically an entity class for login payload
 
     @NotBlank
     private String username;
