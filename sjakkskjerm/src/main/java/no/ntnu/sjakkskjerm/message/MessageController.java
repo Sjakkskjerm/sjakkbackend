@@ -57,7 +57,6 @@ public class MessageController {
     @PreAuthorize("hasAuthority('ROLE_ORGANIZER')")
     public void deleteMessage(@RequestParam Long messageId) {
         messageService.deleteMessage(messageId);
-        System.out.println(messageId);
     }
 
 }

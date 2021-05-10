@@ -112,10 +112,10 @@ public class Tournament {
         return messages;
     }
 
-    public void setMessages(Set<Message> messages) {
-        this.messages = messages;
-    }
+    public void removeMessage(Message message) {
+        this.messages.remove(message);
 
+    }
     public User getOwner() {
         return owner;
     }
