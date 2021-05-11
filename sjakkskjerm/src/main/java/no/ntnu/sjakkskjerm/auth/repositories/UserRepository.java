@@ -24,5 +24,5 @@ public interface UserRepository extends JpaRepository<User, Long> {
     @Transactional
     @Modifying
     @Query(value = "update user_role set role_role_id = ?1 where user_user_id = ?2 ", nativeQuery = true)
-    void changeRole(int roleId, int userId);
+    void changeRole(int roleId, long userId);
 }

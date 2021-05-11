@@ -34,7 +34,7 @@ public class MessageController {
 
     @PostMapping
     @CrossOrigin(origins =  "*", allowedHeaders = "*")
-    @PreAuthorize("hasAuthority('ROLE_ORGANIZER')")
+    @PreAuthorize("hasAuthority('ROLE_ORGANIZER') OR hasAuthority('ROLE_ADMIN')")
     public void sendMessage(@RequestBody MessageRequest message) {
         UserDetailsImpl userDetails = (UserDetailsImpl) SecurityContextHolder.getContext().getAuthentication()
                 .getPrincipal();
@@ -54,7 +54,7 @@ public class MessageController {
     }
 
     @DeleteMapping("/delete")
-    @PreAuthorize("hasAuthority('ROLE_ORGANIZER')")
+    @PreAuthorize("hasAuthority('ROLE_ORGANIZER') OR hasAuthority('ROLE_ADMIN')")
     public void deleteMessage(@RequestParam Long messageId) {
         messageService.deleteMessage(messageId);
     }

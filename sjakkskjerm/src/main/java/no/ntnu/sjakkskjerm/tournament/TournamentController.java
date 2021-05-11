@@ -52,7 +52,7 @@ public class TournamentController {
     }
 
     @PostMapping(path = "/createtournament")
-    @PreAuthorize("hasAuthority('ROLE_ORGANIZER')")
+    @PreAuthorize("hasAuthority('ROLE_ORGANIZER') OR hasAuthority('ROLE_ADMIN')")
     public Tournament addTournament(@RequestBody Tournament tournament) {
         UserDetailsImpl userDetails = (UserDetailsImpl) SecurityContextHolder.getContext().getAuthentication()
                 .getPrincipal();
@@ -61,7 +61,7 @@ public class TournamentController {
     }
 
     @DeleteMapping("/delete")
-    @PreAuthorize("hasAuthority('ROLE_ORGANIZER')")
+    @PreAuthorize("hasAuthority('ROLE_ORGANIZER') OR hasAuthority('ROLE_ADMIN')")
     public void deleteTournament(@RequestParam(name = "tournamentid") Long tournamentId) {
         UserDetailsImpl userDetails = (UserDetailsImpl) SecurityContextHolder.getContext().getAuthentication()
                 .getPrincipal();

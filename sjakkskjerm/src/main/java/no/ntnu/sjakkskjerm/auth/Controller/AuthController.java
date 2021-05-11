@@ -17,15 +17,18 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
 import javax.persistence.EntityManager;
+import javax.swing.text.html.Option;
 import javax.validation.Valid;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -127,9 +130,17 @@ public class AuthController {
 
     @PutMapping("/updateRole")
     @PreAuthorize("hasAuthority('ROLE_ADMIN')")
-    public ResponseEntity<?> updateRole(@RequestParam int roleId, @RequestParam int userId) {
+    public ResponseEntity<?> updateRole(@RequestParam int roleId, @RequestParam long userId) {
+        var userDetails = (UserDetailsImpl) SecurityContextHolder.getContext().getAuthentication()
+                .getPrincipal();
+        Optional<User> userOptional = userRepository.findById(userId);
+        if (userOptional.isPresent()) {
+            var user = userOptional.get();
+            if (userDetails.getUserId().equals(user.getUserId())) {
+                return ResponseEntity.badRequest().build();
+            }
+        }
         userRepository.changeRole(roleId, userId);
-        System.out.println("Rolle Endret");
         return ResponseEntity.ok(new MessageResponse("ok"));
     }
 }

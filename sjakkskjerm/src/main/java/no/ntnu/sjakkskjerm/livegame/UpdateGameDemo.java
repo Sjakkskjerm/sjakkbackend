@@ -15,7 +15,7 @@ public class UpdateGameDemo {
 
     private int step = 0;
 
-    @Scheduled(fixedRate = 2000)
+    @Scheduled(fixedRate = 1000)
     public void updateGame() {
         ArrayList<String> pgnStepOne = new ArrayList<>(List.of(
                 "[Event 'Casual Game']",
