@@ -1,0 +1,30 @@
+version: '2'
+
+services:
+  database:
+    image: 'postgres:13'
+    container_name: sjakkskjermdb
+    restart: on-failure
+    ports:
+      - "5433:5433"
+    environment:
+      - POSTGRES_DB=sjakkskjermdb
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=Passord
+    volumes:
+      - database-data:/var/lib/postgresql/data
+
+  app:
+    container_name: sjakkskjerm-backend
+    build:
+      context: .
+    depends_on:
+      - "database"
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://db:5432/compose-postgres
+      - SPRING_DATASOURCE_USERNAME=compose-postgres
+      - SPRING_DATASOURCE_PASSWORD=compose-postgres
+      - SPRING_JPA_HIBERNATE_DDL_AUTO=create-drop
+
+volumes:
+  database-data:
