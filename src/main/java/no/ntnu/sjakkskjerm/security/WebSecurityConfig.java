@@ -1,4 +1,4 @@
-package no.ntnu.sjakkskjerm.auth.security;
+package no.ntnu.sjakkskjerm.security;
 
 import no.ntnu.sjakkskjerm.auth.security.jwt.AuthEntryPointJWT;
 import no.ntnu.sjakkskjerm.auth.security.jwt.AuthTokenFilter;
@@ -24,7 +24,7 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
         //securedEnabled = true,
         //jsr250Enabled = true,
         prePostEnabled = true)
-public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
+public class    WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Autowired
     UserDetailsServiceImpl userDetailsService;
 
@@ -65,5 +65,10 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .anyRequest().permitAll();
 
         http.addFilterBefore(authTokenFilter(), UsernamePasswordAuthenticationFilter.class);
+
+        http
+            .requiresChannel()
+            .anyRequest()
+            .requiresSecure();
     }
 }
